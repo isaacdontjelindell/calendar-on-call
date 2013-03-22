@@ -19,10 +19,15 @@ class ForwardingNumber():
     def getCurrentForwardingDestination(self):
         return self.forwarding_number_obj.voice_url.split("=")[1].strip("&")
 
+    def getForwardingNumber(self):
+        return self.forwarding_number_obj.phone_number
+
 
 
 def testForwardingNumber():
     num = ForwardingNumber("PN3370cd26b57b0bf69e7bfce10c008a4b")
+
+    print num.getForwardingNumber()
 
     print num.getCurrentForwardingDestination()
     num.updateForwardingDestination("612-978-3683")
@@ -30,4 +35,4 @@ def testForwardingNumber():
     print num.getCurrentForwardingDestination()
     num.updateForwardingDestination("319-743-8485")
 
-# testForwardingNumber()
+#testForwardingNumber()
