@@ -25,6 +25,12 @@ Design
 | Web interface        | See Misc (below)|
 
 
+Dependencies
+----------
+* pip install python-dateutil
+* pip install icalendar
+
+
 Misc
 -------
 * How do we want to handle contact lists? Should a separate contact list be created, either in a Google account or maintained internally by this program?
