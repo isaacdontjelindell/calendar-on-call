@@ -4,7 +4,7 @@ calendar-on-call
 
 TODO
 -------
-- [ ] create DutyCalendar
+- [x] create DutyCalendar
 - [ ] create ContactList
 - [ ] create Location
 - [ ] create main/central control code
