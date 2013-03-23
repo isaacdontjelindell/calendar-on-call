@@ -35,6 +35,7 @@ Misc
 -------
 * How do we want to handle contact lists? Should a separate contact list be created, either in a Google account or maintained internally by this program?
 	-@smitau01 I'd say ultimently we should interface with google contacts and I can look into how difficult this will be but we could also have a contanct list maintained by the program.
+	-@smitau01 OK on second thought... the more I read about OAuth an how much of a pain in the butt it is I'd say let's just have the program itself maintain the contacts information because all the OAuth token stuff I can figure out only provides short lived access so I'm thinking getting phone numbers this way is going to be more of a liability than a help.
 * What should the web interface handle? 
   * Manually specifying a number to forward to for a `Location` (overriding duty calendar).
 	-@smitau01 I think a manual override is a great idea but it needs to have a shutoff value set and a defult shutoff override.
@@ -43,3 +44,15 @@ Misc
 	  Also if we can do some basic authentication stuff (maybe later once this is covered in class? otherwise I know a basic form of it would be pretty easy to implement so that each AHD or "location manager" can only edit or manually override for their location.
 
 * Another thought is we'll want to make sure whatever chron job is set up to update it runs in sync with round time values (ie. 7:00, 7:15 etc NOT 7:03)
+
+My attempt at a google Contacts API key request:
+
+Client ID:	
+709696327552.apps.googleusercontent.com
+Email address:	
+709696327552@developer.gserviceaccount.com
+Client secret:	
+fxZAnABYEpMr4V_lGSaw-fqF
+Redirect URIs:	https://knuth.luther.edu/~smitau01/*
+https://knuth.luther.edu/~dontis01/*
+JavaScript origins:	none
