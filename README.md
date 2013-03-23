@@ -34,6 +34,12 @@ Dependencies
 Misc
 -------
 * How do we want to handle contact lists? Should a separate contact list be created, either in a Google account or maintained internally by this program?
+	-@smitau01 I'd say ultimently we should interface with google contacts and I can look into how difficult this will be but we could also have a contanct list maintained by the program.
 * What should the web interface handle? 
   * Manually specifying a number to forward to for a `Location` (overriding duty calendar).
+	-@smitau01 I think a manual override is a great idea but it needs to have a shutoff value set and a defult shutoff override.
   * Show current information - Locations, forwarding numbers, calendars, etc.
+	-@smitau01 I'd say if there can be an "admin" dashboard of sorts that anyone with the top level admin login can see all the numbers in use and who they are set up to forward to at the present time.
+	  Also if we can do some basic authentication stuff (maybe later once this is covered in class? otherwise I know a basic form of it would be pretty easy to implement so that each AHD or "location manager" can only edit or manually override for their location.
+
+* Another thought is we'll want to make sure whatever chron job is set up to update it runs in sync with round time values (ie. 7:00, 7:15 etc NOT 7:03)
