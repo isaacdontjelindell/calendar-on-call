@@ -6,7 +6,7 @@ from django.utils import timezone
 import time
 import pytz
 
-isResLife = True
+isResLife = False
 
 #This is the current Brandt Duty Calender
 #url = "http://www.google.com/calendar/ical/luther.edu_1qh57c21giu69npv6kj3vdihh0%40group.calendar.google.com/public/basic.ics";
@@ -19,7 +19,6 @@ ics = urllib.urlopen(url).read()
 ical = Calendar.from_ical(ics)
 for vevent in ical.subcomponents:
     print vevent
-
     #if vevent.name != "VEVENT":
     #    continue
     title = str(vevent.get('SUMMARY'))
@@ -39,6 +38,7 @@ for vevent in ical.subcomponents:
         hasTime = False
     if hasTime:
         #Create Another Function to Handle Time Specified Events
+        print "This event HAS a TIME"
         if (eventStartTime <= datetime.datetime.now().time() and eventEndTime <= datetime.datetime.now().time()):
             print "THIS EVENT IS GOING ON NOW"
     if isResLife:
@@ -51,14 +51,10 @@ for vevent in ical.subcomponents:
             print "RESLIFE - ON DUTY: ", title
 
 
-
-    print "End: ", end
     print "DateTimeStamp: ", dtstamp
     print start.day == date.today().day
 
 today = date.today()
-
-print date.today()
 
 #When Called Returns "Title Field" of Current On Call
 def getCurrentOnCall(url):
