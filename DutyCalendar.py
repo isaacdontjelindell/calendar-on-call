@@ -1,6 +1,6 @@
 from icalendar import Calendar
 import urllib
-import pytz
+import datetime
 
 
 class DutyCalendar:
@@ -8,23 +8,34 @@ class DutyCalendar:
         ''' url is a string ics URL '''
         self.url = url
 
-
-
     def getCurrentOnCall(self):
-        ''' Should return a string name '''
+        ''' Should return a string list of names.
+            This is assuming there could be more than
+            one person on duty.
+        '''
+        on_duty_names = []
+
+        curr_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
         ics = urllib.urlopen(self.url).read()
         ical = Calendar.from_ical(ics)
 
         for vevent in ical.subcomponents:
-            if vevent.name != "VEVENT":
+            if vevent.name != "VEVENT":  # if it's not an event, ignore it
                 continue
-            title = str(vevent.get('SUMMARY'))
-            description = str(vevent.get('DESCRIPTION'))
-            location = str(vevent.get('LOCATION'))
-            start = vevent.get('DTSTART').dt      # a datetime
-            end = vevent.get('DTEND').dt        # a datetime
 
-            print title
-            print start
-            print end
-            print ""
+            start_date = vevent.get('DTSTART').dt.strftime("%Y-%m-%d")  # .dt is a datetime, start_date will be a string
+
+            if(start_date == curr_date): # if this event is for today
+                title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully an RA name)
+                on_duty_names.append(title)
+
+        return on_duty_names
+
+def testDutyCalendar():
+    dc = DutyCalendar("http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics")
+    names = dc.getCurrentOnCall()
+    print names
+
+# testDutyCalendar()
+
