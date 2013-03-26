@@ -4,11 +4,12 @@ calendar-on-call
 
 TODO
 -------
-- [  ] create DutyCalendar
-- [  ] create ContactList
-- [  ] create Location
-- [  ] create main/central control code
-- [  ] web interface
+- [x] create ForwardingNumber
+- [x] create DutyCalendar
+- [ ] create ContactList
+- [ ] create Location
+- [ ] create main/central control code
+- [ ] web interface
 
 
 
