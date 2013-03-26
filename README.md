@@ -6,7 +6,7 @@ TODO
 -------
 - [x] create ForwardingNumber
 - [x] create DutyCalendar
-- [ ] create ContactList
+- [x] create ContactList
 - [ ] create Location
 - [ ] create main/central control code
 - [ ] web interface
@@ -19,9 +19,9 @@ Design
 |                      |                              |  
 | -------------------- |------------------------------|
 | `ForwardingNumber.py`| Class representing a Twilio number, and containing methods to change the forwarding destination. |
-| `DutyCalendar.py`    | (name TBD). Class representing a Google Calendar, and containing methods to get current person on duty.|
-| `ContactList.py`     | (name TBD). Class representing a Google contact list that will be used for number lookups.|
-| `Location.py`        | (name TBD). Class representing a location (i.e. dorm). Maintains a `ForwardingNumber`, `DutyCalendar`, and `ContactList`, and contains methods to trigger updates.| 
+| `DutyCalendar.py`    | Class representing a Google Calendar, and containing methods to get current person on duty.|
+| `ContactList.py`     | Class representing a Google contact list that will be used for number lookups. Currently just a manually populated dict.
+| `Location.py`        | Class representing a location (i.e. dorm). Maintains a `ForwardingNumber`, `DutyCalendar`, and `ContactList`, and contains methods to trigger updates.|
 | `main.py`            | (name TBD). Central control. Called periodically (cronjob?). Responsible for maintaining list of `Location` objects and calling update methods on them.|
 | Web interface        | See Misc (below)|
 
