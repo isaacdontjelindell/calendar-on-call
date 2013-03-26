@@ -2,7 +2,6 @@ from icalendar import Calendar
 import urllib
 from datetime import date
 import datetime
-from django.utils import timezone
 import time
 import pytz
 
@@ -12,7 +11,7 @@ isResLife = False
 #url = "http://www.google.com/calendar/ical/luther.edu_1qh57c21giu69npv6kj3vdihh0%40group.calendar.google.com/public/basic.ics";
 
 #This is a fake Duty Calender for testing purposes
-url = "http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics";
+url = "http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics"
 
 ics = urllib.urlopen(url).read()
 
