@@ -12,13 +12,13 @@ class Location:
         self.contact_list = contact_list    # ContactList containing the phone numbers for this location
         self.forwarding_number = forwarding_number  # Twilio ForwardingNumber for this location
 
-        self.current_on_call = "Not A. Person"  # name of person currently on call
+        self.current_on_call = self.duty_calendar.getCurrentOnCall()[0]  # name of person currently on call - TODO handle multiple on call
 
     def update(self):
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
         new_on_call = self.duty_calendar.getCurrentOnCall()[0]  # for now just using the first entry on duty - TODO handle multiple
 
-        if not new_on_call == self.current_on_call:
+        if not self.contact_list.getNumber(new_on_call) == self.forwarding_number.getCurrentForwardingDestination():
             self.current_on_call = new_on_call
             new_number = self.contact_list.getNumber(new_on_call)
             self.forwarding_number.updateForwardingDestination(new_number)
