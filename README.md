@@ -7,7 +7,7 @@ TODO
 - [x] create ForwardingNumber
 - [x] create DutyCalendar
 - [x] create ContactList
-- [ ] create Location
+- [x] create Location
 - [ ] create main/central control code
 - [ ] web interface
 
