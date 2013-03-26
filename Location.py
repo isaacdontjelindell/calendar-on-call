@@ -23,6 +23,9 @@ class Location:
             new_number = self.contact_list.getNumber(new_on_call)
             self.forwarding_number.updateForwardingDestination(new_number)
             print (self.current_on_call + " is now on duty. Calls will be forwarded to " + new_number + ".")
+        else:
+            print "No change in duty. " + self.current_on_call + " is still on duty."
+            print "Calls to " + self.forwarding_number.getForwardingNumber() + " are forwarded to " + self.forwarding_number.getCurrentForwardingDestination()
 
 
 def testLocation():
@@ -31,13 +34,19 @@ def testLocation():
 
     dct = {}
     dct["Isaac DL"] = "612-978-3683"
-    dct["Austen Smith"] = "123-456-7891"
+    dct["Austen Smith"] = "319-743-8485"
     contact_list = ContactList(dct)
 
     location = Location("Brandt", cal, contact_list, num)
     print num.getCurrentForwardingDestination()
 
+    print ""
+
     location.update()
     print num.getCurrentForwardingDestination()
 
-#testLocation()
+    print ""
+
+    location.update()
+
+testLocation()
