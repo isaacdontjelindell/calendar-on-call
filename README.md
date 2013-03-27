@@ -13,6 +13,7 @@ TODO
   - more...
 * allow removal of locations
 * time checks for reslife applications (person on duty on 25th is actually on call until 7am on 26th, etc)
+* get working on Knuth (install dependencies). Will have to work with Miller on this.
 * more...
 
 
