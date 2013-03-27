@@ -1,52 +1,74 @@
-__author__ = 'isaac'
-
-from DutyCalendar import DutyCalendar
-from ForwardingNumber import ForwardingNumber
-from ContactList import ContactList
+from twilio.rest import TwilioRestClient
+import datetime
+from icalendar import Calendar
+import urllib
 
 class Location:
-    def __init__(self, location_name, duty_calendar, contact_list, forwarding_number):
+    def __init__(self, info):
+        self.info = info
+        self.twilio_client = TwilioRestClient()
+        self.forwarding_number_obj = self.twilio_client.phone_numbers.get(self.info["forwarding_number_id"])
 
-        self.location_name = location_name  # description of this location (e.g. "Brandt Hall")
-        self.duty_calendar = duty_calendar  # DutyCalendar for this location
-        self.contact_list = contact_list    # ContactList containing the phone numbers for this location
-        self.forwarding_number = forwarding_number  # Twilio ForwardingNumber for this location
-
-        self.current_on_call = self.duty_calendar.getCurrentOnCall()[0]  # name of person currently on call - TODO handle multiple on call
+    def getInfo(self):
+        return self.info
 
     def update(self):
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
-        new_on_call = self.duty_calendar.getCurrentOnCall()[0]  # for now just using the first entry on duty - TODO handle multiple
+        curr_forwarding_destination = self.getCurrentForwardingDestination()
 
-        if not self.contact_list.getNumber(new_on_call) == self.forwarding_number.getCurrentForwardingDestination():
-            self.current_on_call = new_on_call
-            new_number = self.contact_list.getNumber(new_on_call)
-            self.forwarding_number.updateForwardingDestination(new_number)
-            print (self.current_on_call + " is now on duty. Calls will be forwarded to " + new_number + ".")
-        else:
-            print "No change in duty. " + self.current_on_call + " is still on duty."
-            print "Calls to " + self.forwarding_number.getForwardingNumber() + " are forwarded to " + self.forwarding_number.getCurrentForwardingDestination()
+        new_person_on_duty = self.getCurrentPersonOnDuty()[0] # TODO handle multiples
+        new_forwarding_destination = self.info["contact_list"][new_person_on_duty]
+
+        if not curr_forwarding_destination == new_forwarding_destination:
+            self.updateForwardingDestination(new_forwarding_destination)
+
+    def updateForwardingDestination(self, new_destination_number):
+        voice_URL = "http://twimlets.com/forward?PhoneNumber=" + new_destination_number + "&"
+        self.forwarding_number_obj.update(voice_url=voice_URL)
+
+    def getCurrentForwardingDestination(self):
+        return self.forwarding_number_obj.voice_url.split("=")[1].strip("&")
+
+    def getCurrentPersonOnDuty(self):
+        on_duty_names = []
+
+        curr_date = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        ics = urllib.urlopen(self.info["calendar_url"]).read()
+        ical = Calendar.from_ical(ics)
+
+        for vevent in ical.subcomponents:
+            if vevent.name != "VEVENT":  # if it's not an event, ignore it
+                continue
+
+            start_date = vevent.get('DTSTART').dt.strftime("%Y-%m-%d")  # .dt is a datetime, start_date will be a string
+
+            if(start_date == curr_date): # if this event is for today
+                title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully an RA name)
+                on_duty_names.append(title)
+
+        return on_duty_names
 
 
 def testLocation():
-    cal = DutyCalendar("http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics")
-    num = ForwardingNumber("PN3370cd26b57b0bf69e7bfce10c008a4b")
+    calendar_url = "http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics"
+    forwarding_number_id = "PN3370cd26b57b0bf69e7bfce10c008a4b"
 
-    dct = {}
-    dct["Isaac DL"] = "612-978-3683"
-    dct["Austen Smith"] = "319-743-8485"
-    contact_list = ContactList(dct)
+    contact_list = {}
+    contact_list["Isaac DL"] = "612-978-3683"
+    contact_list["Austen Smith"] = "319-743-8485"
 
-    location = Location("Brandt", cal, contact_list, num)
-    print num.getCurrentForwardingDestination()
+    info = {}
+    info["location_name"] = "Brandt Hall"
+    info["calendar_url"] = calendar_url
+    info["forwarding_number_id"] = forwarding_number_id
+    info["contact_list"] = contact_list
 
-    print ""
-
-    location.update()
-    print num.getCurrentForwardingDestination()
-
-    print ""
+    location = Location(info)
+    print location.getCurrentForwardingDestination()
 
     location.update()
+    print location.getCurrentForwardingDestination()
+
 
 testLocation()
