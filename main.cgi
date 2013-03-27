@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 
 from Location import Location
 import update
@@ -58,7 +58,7 @@ def showWebInterface():
     includeCurrentLocations()
 
     print '''
-        <form method=POST action="update.py">
+        <form method=POST action="update.cgi">
             <input type="submit" value="Update forwarding numbers based on duty calendars. (Refresh page to see changes)"
         </form>
     '''
@@ -71,7 +71,7 @@ def showWebInterface():
 
 def includeNewLocationForm():
     print '''
-        <form method=POST action="main.py" name="newLocation">
+        <form method=POST action="main.cgi" name="newLocation">
             Location name: <input type='text' name='name' value=""/><br>
             Duty calendar url: <input type='text' name='cal' value=""/><br>
             Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
