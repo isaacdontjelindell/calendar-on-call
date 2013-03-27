@@ -71,4 +71,4 @@ def testLocation():
     print location.getCurrentForwardingDestination()
 
 
-testLocation()
+#testLocation()
