@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from Location import Location
+import update
 import json
 import os
 import cgitb
@@ -57,6 +58,12 @@ def showWebInterface():
     includeCurrentLocations()
 
     print '''
+        <form method=POST action="update.py">
+            <input type="submit" value="Update forwarding numbers based on duty calendars. (Refresh page to see changes)"
+        </form>
+    '''
+
+    print '''
         </body>
         </html>
     '''
@@ -81,6 +88,7 @@ def includeCurrentLocations():
         print "Location: " + info["location_name"] + "<br>"
         print "Calendar URL: " + info["calendar_url"] + "<br>"
         print "Forwarding number ID: " + info["forwarding_number_id"] + "<br>"
+        print "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
         print "<br>"
     
     print '''</div>'''
