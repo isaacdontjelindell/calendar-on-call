@@ -1,5 +1,3 @@
-__author__ = 'isaac'
-
 
 class ContactList:
     def __init__(self, contact_dict):
@@ -10,6 +8,8 @@ class ContactList:
         ''' name is a string '''
         return self.contact_dict[name]
 
+    def getContactDict(self):
+        return self.contact_dict
 
 def testContactList():
     dct = {}

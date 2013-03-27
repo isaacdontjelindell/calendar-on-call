@@ -8,6 +8,10 @@ class DutyCalendar:
         ''' url is a string ics URL '''
         self.url = url
 
+
+    def getCalendarUrl(self):
+        return self.url
+
     def getCurrentOnCall(self):
         ''' Should return a string list of names.
             This is assuming there could be more than
