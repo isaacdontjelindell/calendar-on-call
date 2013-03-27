@@ -1,3 +1,5 @@
+Options +ExecCGI
+AddHandler cgi-script .cgi
 SetEnv TWILIO_ACCOUNT_SID AC28c9f1604c5ac11275bbcea2b3d7d3b2
 SetEnv TWILIO_AUTH_TOKEN 9df76400307e4ba7e480df0378ee827e
 
