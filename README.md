@@ -4,30 +4,27 @@ calendar-on-call
 
 TODO
 -------
-- [x] create ForwardingNumber
-- [x] create DutyCalendar
-- [x] create ContactList
-- [x] create Location
-- [ ] create main/central control code
-- [ ] web interface
+* Error handling!
+  - when there isn't anyone on duty
+  - multiple people on duty
+  - any API unreachable
+  - more...
+* allow removal of locations
+* time checks for reslife applications (person on duty on 25th is actually on call until 7am on 26th, etc)
+* more...
 
 
 
 Design
 -------
-
-|                      |                              |  
-| -------------------- |------------------------------|
-| `ForwardingNumber.py`| Class representing a Twilio number, and containing methods to change the forwarding destination. |
-| `DutyCalendar.py`    | Class representing a Google Calendar, and containing methods to get current person on duty.|
-| `ContactList.py`     | Class representing a Google contact list that will be used for number lookups. Currently just a manually populated dict.
-| `Location.py`        | Class representing a location (i.e. dorm). Maintains a `ForwardingNumber`, `DutyCalendar`, and `ContactList`, and contains methods to trigger updates.|
-| `main.py`            | (name TBD). Central control. Called periodically (cronjob?). Responsible for maintaining list of `Location` objects and calling update methods on them.|
-| Web interface        | See Misc (below)|
+* `Location.py`: takes a dictionary of parameters, including the Twilio phone number ID, the icalendar URL, a location name, and a sub-dictionary containing the contact list for that location.
+* `main.cgi`: Currently displays all locations that have been added, allows for adding a new location, and manually triggering an update check (using `update.cgi`, below)
+* `update.cgi`: When called, triggers an update check on all locations in the calendar-on-call.dat file. Will update the Twilio forwarding number for that location if the person on duty has changed (based on the Google Calendar icalendar URL associated with that location).
 
 
 Dependencies
 ----------
+* pip install twilio
 * pip install python-dateutil
 * pip install icalendar
 
