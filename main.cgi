@@ -5,6 +5,8 @@ import json
 import os
 import cgitb
 import cgi
+import httplib2
+import sys
 
 
 # global variables
@@ -23,8 +25,36 @@ def readFromFile():
         inlist = json.load(infile)
 
     for info in inlist:
-        locations.append(Location(info))
+        try:
+            locations.append(Location(info))
+        except httplib2.ServerNotFoundError:
+           showErrors("Twilio seems to be unreachable - try again later.")
 
+def showErrors(error):
+    
+    print "Content-Type: text/html"
+    print 
+
+    print '''
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <link rel="stylesheet" type="text/css" href="style.css">
+                <title>Calendar On Call</title>
+            </head>
+            <body>
+    '''
+    
+    print "<div id='error'>"
+    print     error
+    print "</div>"
+
+
+    print '''
+            </body>
+        </html>
+    '''
+    sys.exit()
 
 def showWebInterface():
     print "Content-Type: text/html"

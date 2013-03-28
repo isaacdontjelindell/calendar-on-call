@@ -51,7 +51,7 @@ class Location:
 
 
 def testLocation():
-    calendar_url = "http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics"
+    calendar_url= "http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics"
     forwarding_number_id = "PN3370cd26b57b0bf69e7bfce10c008a4b"
 
     contact_list = {}
@@ -66,7 +66,7 @@ def testLocation():
 
     location = Location(info)
     print location.getCurrentForwardingDestination()
-
+    
     location.update()
     print location.getCurrentForwardingDestination()
 
