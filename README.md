@@ -21,6 +21,10 @@ TODO
 
 Design
 -------
+Every time `main.cgi` is called, it reads in all information (locations, etc) from a JSON text file (`calendar-on.call.dat`. JSON is like YAML but doesn't require another dependency). If 
+any changes are made (adding/removing a location, updating contact list, manual override), it saves all that information
+into the DAT file for the next time. `update.cgi` also reads in this DAT file to get the list of locations to call `update()` on.
+
 * `Location.py`: takes a dictionary of parameters, including the Twilio phone number ID, the icalendar URL, a location name, and a sub-dictionary containing the contact list for that location.
 * `main.cgi`: Currently displays all locations that have been added, allows for adding a new location, and manually triggering an update check (using `update.cgi`, below)
 * `update.cgi`: When called, triggers an update check on all locations in the calendar-on-call.dat file. Will update the Twilio forwarding number for that location if the person on duty has changed (based on the Google Calendar icalendar URL associated with that location).
