@@ -65,6 +65,8 @@ def showWebInterface():
         <html>
             <head>
                 <link rel="stylesheet" type="text/css" href="style.css">
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                <script type="text/javascript" src="main.js"></script>
                 <title>Calendar On Call</title>
             </head>
             <body>
@@ -85,13 +87,16 @@ def includeUpdateButton():
 
 def includeNewLocationForm():
     print '''
-        <form method=POST action="main.cgi?newLocation" name="newLocation">
-            Location name: <input type='text' name='name' value=""/><br>
-            Duty calendar url: <input type='text' name='cal' value=""/><br>
-            Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
-            Phone number list: <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
-            <input type="submit" value="Submit"/>
-        </form>
+        <a class="show_hide" href="#" rel="#newLocationForm">+Add a new location</a>
+        <div id="newLocationForm" class="toggleDiv" style="display: none;">
+            <form method=POST action="main.cgi?newLocation" name="newLocation">
+                Location name: <input type='text' name='name' value=""/><br>
+                Duty calendar url: <input type='text' name='cal' value=""/><br>
+                Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
+                Phone number list: <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
+                <input type="submit" value="Submit"/>
+            </form>
+        </div>
         <br><br>
     '''
 
@@ -107,9 +112,11 @@ def includeCurrentLocations():
         print    "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
         print    "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
         print    "<span class='small gray'>"
-        print    "Advanced information:<br>"
-        print    "Calendar URL: " + info["calendar_url"] + "<br>"
-        print    "Forwarding number ID: " + info["forwarding_number_id"] + "<br>"
+        print    "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
+        print    "<div id='advancedInfo' class='toggleDiv' style='display: none;'>"
+        print       "Calendar URL: " + info["calendar_url"] + "<br>"
+        print       "Forwarding number ID: " + info["forwarding_number_id"] + "<br>"
+        print    "</div>"
         print    "</span>"
         print "</li>"
     
