@@ -87,15 +87,17 @@ def includeUpdateButton():
 
 def includeNewLocationForm():
     print '''
-        <a class="show_hide" href="#" rel="#newLocationForm">+Add a new location</a>
-        <div id="newLocationForm" class="toggleDiv" style="display: none;">
-            <form method=POST action="main.cgi?newLocation" name="newLocation">
-                Location name: <input type='text' name='name' value=""/><br>
-                Duty calendar url: <input type='text' name='cal' value=""/><br>
-                Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
-                Phone number list: <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
-                <input type="submit" value="Submit"/>
-            </form>
+        <a class="show_hide" href="#" rel="#newLocationContainer">+Add a new location</a>
+        <div id="newLocationContainer" class="toggleDiv" style="display: none;">
+            <div id="newLocationForm">
+                <form method=POST action="main.cgi?newLocation" name="newLocation">
+                    Location name: <input type='text' name='name' value=""/><br>
+                    Duty calendar url: <input type='text' name='cal' value=""/><br>
+                    Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
+                    Phone number list (name:xxx-xxx-xxx): <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
+                    <input type="submit" value="Add location"/>
+                </form>
+            </div>
         </div>
         <br><br>
     '''
@@ -114,8 +116,8 @@ def includeCurrentLocations():
         print    "<span class='small gray'>"
         print    "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
         print    "<div id='advancedInfo' class='toggleDiv' style='display: none;'>"
-        print       "Calendar URL: " + info["calendar_url"] + "<br>"
-        print       "Forwarding number ID: " + info["forwarding_number_id"] + "<br>"
+        print       "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
+        print       "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
         print    "</div>"
         print    "</span>"
         print "</li>"
