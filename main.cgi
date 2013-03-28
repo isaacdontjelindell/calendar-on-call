@@ -50,14 +50,12 @@ def showWebInterface():
 
 def includeUpdateButton():
     print '''
-        <form method=POST action="update.cgi">
-            <input type="submit" value="Update forwarding numbers based on duty calendars. (Refresh page to see changes)"
-        </form>
+        <input type="button" onclick="var img = new Image(); img.src='update.cgi'" value="Update forwarding numbers based on duty calendars. (Refresh page to see changes)">
     '''
 
 def includeNewLocationForm():
     print '''
-        <form method=POST action="main.cgi" name="newLocation">
+        <form method=POST action="main.cgi?newLocation" name="newLocation">
             Location name: <input type='text' name='name' value=""/><br>
             Duty calendar url: <input type='text' name='cal' value=""/><br>
             Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
@@ -69,10 +67,12 @@ def includeNewLocationForm():
 
 def includeCurrentLocations():
     print "<div id='locations'>"
+    print '''<form method=POST action="main.cgi?removeLocation" name="removeLocation">'''
     print   "<ul>"
     for loc in locations:
         info = loc.getInfo()
         print "<li>"
+        print    "<input type='checkbox' name='location' value='" + info["location_name"] + "'>"
         print    "Location: " + info["location_name"] + "<br>"
         print    "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
         print    "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
@@ -84,6 +84,8 @@ def includeCurrentLocations():
         print "</li>"
     
     print   "</ul>"
+    print   "<input type='submit' value='Remove selected locations'>"
+    print   "</form>"
     print "</div>"
 
 def parseNewLocationForm(form):
@@ -111,16 +113,31 @@ def addNewLocation(form):
     new_location = Location(new_info)
     locations.append(new_location)
 
+def removeLocations(form):
+    remove_loc = form.getlist("location")
+    temp = []
+    for r_loc in remove_loc:
+        for loc in locations:
+            if loc.getInfo()["location_name"] == r_loc:
+                temp.append(locations.index(loc))
+
+    for i in temp:
+        locations.pop(i)
+    
 def main():
     cgitb.enable()
 
     readFromFile() # recover existing locations
 
+    query_string = os.environ['QUERY_STRING']
+
     form = cgi.FieldStorage() # special object!
     
-    # if the page has just been loaded, form won't contain anything
-    if "name" in form:
+    if "newLocation" in query_string:
         addNewLocation(form)
+
+    if "removeLocation" in query_string:
+        removeLocations(form)
 
     showWebInterface()
     dumpToFile()

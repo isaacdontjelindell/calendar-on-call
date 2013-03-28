@@ -19,5 +19,4 @@ def update():
     for loc in locations:
         loc.update()
 
-
 update()
