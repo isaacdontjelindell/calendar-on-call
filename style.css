@@ -1,0 +1,23 @@
+body {
+    width: 900px;
+    margin: 0px auto 0px auto;
+}
+
+#locations ul {
+    width: 600px;   
+}
+
+#locations li {
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px;
+    margin: 0px 0px 5px 0px;
+}
+
+.small {
+    font-size: 10px;
+}
+
+.gray {
+    text-color: gray;
+}

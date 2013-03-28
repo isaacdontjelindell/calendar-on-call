@@ -33,25 +33,27 @@ def showWebInterface():
     print '''
         <!DOCTYPE html>
         <html>
-        <head>
-        <title>Calendar On Call</title>
-        </head>
-        <body>
+            <head>
+                <link rel="stylesheet" type="text/css" href="style.css">
+                <title>Calendar On Call</title>
+            </head>
+            <body>
     '''
     includeNewLocationForm()
     includeCurrentLocations()
+    includeUpdateButton()
 
+    print '''
+            </body>
+        </html>
+    '''
+
+def includeUpdateButton():
     print '''
         <form method=POST action="update.cgi">
             <input type="submit" value="Update forwarding numbers based on duty calendars. (Refresh page to see changes)"
         </form>
     '''
-
-    print '''
-        </body>
-        </html>
-    '''
-
 
 def includeNewLocationForm():
     print '''
@@ -59,23 +61,30 @@ def includeNewLocationForm():
             Location name: <input type='text' name='name' value=""/><br>
             Duty calendar url: <input type='text' name='cal' value=""/><br>
             Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
-            Phone number list: <textarea rows="10" cols="40" name='contacts' value=""></textarea><br>
+            Phone number list: <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
             <input type="submit" value="Submit"/>
         </form>
         <br><br>
     '''
 
 def includeCurrentLocations():
-    print '''<div id="locations">'''
+    print "<div id='locations'>"
+    print   "<ul>"
     for loc in locations:
         info = loc.getInfo()
-        print "Location: " + info["location_name"] + "<br>"
-        print "Calendar URL: " + info["calendar_url"] + "<br>"
-        print "Forwarding number ID: " + info["forwarding_number_id"] + "<br>"
-        print "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
-        print "<br>"
+        print "<li>"
+        print    "Location: " + info["location_name"] + "<br>"
+        print    "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
+        print    "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
+        print    "<span class='small gray'>"
+        print    "Advanced information:<br>"
+        print    "Calendar URL: " + info["calendar_url"] + "<br>"
+        print    "Forwarding number ID: " + info["forwarding_number_id"] + "<br>"
+        print    "</span>"
+        print "</li>"
     
-    print '''</div>'''
+    print   "</ul>"
+    print "</div>"
 
 def parseNewLocationForm(form):
     new_info = {}
