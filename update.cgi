@@ -1,5 +1,9 @@
 #!/usr/local/bin/python
 
+# run as a cronjob and log to /home/isaac/cron_log
+# */3 * * * * cd /var/www/dev/calendar-on-call; ./update.cgi 1> /home/isaac/cron_log 2>&1
+
+
 import json
 from Location import Location
 
