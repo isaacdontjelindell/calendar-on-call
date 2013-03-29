@@ -9,9 +9,11 @@ TODO
 * Error handling!
   - when there isn't anyone on duty
   - any API unreachable
+  - invalid/malformed query string
+  - can't find person on duty in contact list
   - more...
-* update/change contact list for a location
-* separate interface for individual location (vs. top-level admin interface)
+* add entries to contact list for a location
+* link to location-specific interface from admin/main
 * multiple people on duty
 * time checks for reslife applications (person on duty on 25th is actually on call until 7am on 26th, etc)
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
