@@ -56,7 +56,7 @@ def showErrors(error):
     '''
     sys.exit()
 
-def showWebInterface():
+def showMainInterface():
     print "Content-Type: text/html"
     print 
 
@@ -72,13 +72,82 @@ def showWebInterface():
             <body>
     '''
     includeNewLocationForm()
-    includeCurrentLocations()
+    includeAllCurrentLocations()
     includeUpdateButton()
 
     print '''
             </body>
         </html>
     '''
+
+def showLocationInterface(loc_name):
+    print "Content-Type: text/html"
+    print 
+
+    print '''
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <link rel="stylesheet" type="text/css" href="style.css">
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                <script type="text/javascript" src="main.js"></script>
+                <title>Calendar On Call</title>
+            </head>
+            <body>
+    '''
+    
+    includeLocation(loc_name)
+
+    print '''
+            </body>
+        </html>
+    '''
+
+def includeLocation(loc_name):
+    loc = ""
+
+    for l in locations:
+        if l.getInfo()["location_name"].lower() == loc_name.lower():
+            loc = l
+            break
+    info = loc.getInfo()
+
+    print "<div id='locationContainer'>"
+
+    
+    print   "Location: " + info["location_name"] + "<br>"
+    print   "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
+    print   "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
+
+    print   "<span class='small gray'>"
+    print       "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
+    print        "<div id='advancedInfo' class='toggleDiv' style='display: none;'>"
+    print           "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
+    print           "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
+    print        "</div>"
+    print   "</span>"
+    
+    includeContactListForm(info)    
+
+    print "</div>"
+
+def includeContactListForm(info):
+    cl = info["contact_list"]
+
+    print "<div id='contactList'>"
+    print   "<form id='contactListRemoveForm' method=POST action='main.cgi?location=" + info["location_name"] + "&removeContact'>" 
+    print       "<table>"
+    for contact in cl:
+        print       "<tr>"
+        print           "<td><input type='checkbox' name='contact' value='" + contact + "'>" 
+        print           "<td>" + contact + ":   </td>" 
+        print           "<td>" + cl[contact] + "</td>"
+        print       "</tr>"
+    print       "</table>"
+    print       "<input type='submit' value='Remove selected contacts'>"
+    print   "</form>"
+    print "</div>"
+
 
 def includeUpdateButton():
     print '''
@@ -102,7 +171,7 @@ def includeNewLocationForm():
         <br><br>
     '''
 
-def includeCurrentLocations():
+def includeAllCurrentLocations():
     print "<div id='locations'>"
     print '''<form method=POST action="main.cgi?removeLocation" name="removeLocation">'''
     print   "<ul>"
@@ -147,6 +216,19 @@ def parseNewLocationForm(form):
     new_info["contact_list"] = contact_list
     return new_info
 
+def removeContacts(loc_name, form):
+    remove_contacts = form.getlist("contact")
+    temp = []
+    loc = ""
+    for l in locations:
+        if l.getInfo()["location_name"].lower() == loc_name.lower():
+            loc = l
+            break
+    info = loc.getInfo()
+    for r_con in remove_contacts:
+        del info["contact_list"][r_con]
+
+
 def addNewLocation(form):
     new_info = parseNewLocationForm(form)
     new_location = Location(new_info)
@@ -174,12 +256,27 @@ def main():
     
     if "newLocation" in query_string:
         addNewLocation(form)
+        showMainInterface()
 
-    if "removeLocation" in query_string:
+    elif "removeLocation" in query_string:
         removeLocations(form)
+        showMainInterface()
 
-    showWebInterface()
+    elif "location=" in query_string:
+        temp = query_string.split("=")
+        loc_name = temp[1]
+
+        if "removeContact" in loc_name:
+            loc_name = loc_name.split("&")[0]
+            removeContacts(loc_name, form)
+        
+        showLocationInterface(loc_name)
+
+    else:
+        showMainInterface()
+
     dumpToFile()
 
 
 main()
+
