@@ -63,7 +63,7 @@ class Location:
     def getCurrentPersonOnDuty(self):
         on_duty_names = []
 
-        curr_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        #curr_date = datetime.datetime.now() #.strftime("%Y-%m-%d")
 
         ics = urllib.urlopen(self.info["calendar_url"]).read()
         ical = Calendar.from_ical(ics)
@@ -72,18 +72,20 @@ class Location:
             if vevent.name != "VEVENT":  # if it's not an event, ignore it
                 continue
 
-            start_date = vevent.get('DTSTART').dt.strftime("%Y-%m-%d")  # .dt is a datetime, start_date will be a string
+            start_date = vevent.get('DTSTART').dt #.strftime("%Y-%m-%d")  # .dt is a datetime or date
+            end_date = vevent.get('DTEND').dt
             
             if(isinstance(start_date, datetime.datetime)):
-                pass
-                #print start_date.astimezone(tz.tzlocal())
-                #print "It's a datetime!"
-            elif(isinstance(start_date, datetime.date)):
-                pass
-                #print start_date
-                #print "It's a date!"
+                # it's a datetime.datetime object (includes time)
+                start_date = start_date.astimezone(tz.tzlocal()) # convert to local time
+                end_date = end_date.astimezone(tz.tzlocal())
+                curr_date = datetime.datetime.now(tz.tzlocal())
 
-            if(start_date == curr_date): # if this event is for today
+            elif(isinstance(start_date, datetime.date)):
+                # it's a datetime.date object (does not include time)
+                curr_date = datetime.date.today()
+
+            if(start_date <= curr_date <= end_date): # if this event is right now
                 title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully an RA name)
                 on_duty_names.append(title)
 
