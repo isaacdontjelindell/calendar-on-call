@@ -26,39 +26,43 @@ class Location:
 
     def update2(self):
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
-        curr_forwarding_destination = self.getCurrentForwardingDestination()
+        curr_forwarding_destinations,failNum = self.getCurrentForwardingDestinations2()
 
-        for name in self.getCurrentPersonOnDuty2():
+        for name in self.getCurrentPersonsOnDuty2():
             new_person_on_duty = name
-            new_forwarding_destination = self.info["contact_list"][new_person_on_duty]
+            new_forwarding_destinations = []
+            new_forwarding_destinations.append(self.info["contact_list"][str(new_person_on_duty).strip().lower()])
 
-        new_person_on_duty = self.getCurrentPersonOnDuty()[0] # TODO handle multiples
-        new_forwarding_destination = self.info["contact_list"][new_person_on_duty]
-
-        if not curr_forwarding_destination == new_forwarding_destination:
-            self.updateForwardingDestination(new_forwarding_destination)
+        if not curr_forwarding_destinations == new_forwarding_destinations:
+            self.updateForwardingDestinations2(new_forwarding_destinations, failNum)
 
     def updateForwardingDestination(self, new_destination_number):
         voice_URL = "http://twimlets.com/forward?PhoneNumber=" + new_destination_number + "&"
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
-    def updateForwardingDestination2(self, new_destination_numbers, failNumber):
+    def updateForwardingDestinations2(self, new_destination_numbers, failNumber):
         voice_URL = "http://twimlets.com/simulring?"
         incrementNum = 0;
         for number in new_destination_numbers:
             voice_URL = voice_URL + "PhoneNumbers%5" + str(incrementNum) + "B%5D=" + number + "&"
             incrementNum = incrementNum + 1
-        voice_URL = voice_URL + "FailUrl=http%3A%2F%2Ftwimlets.com%2Fforward%3FPhoneNumber%3D" + failNumber + "&"
+        voice_URL = voice_URL + "http://twimlets.com/forward?PhoneNumber=" + failNumber + "&"
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
     def getCurrentForwardingDestination(self):
         return self.forwarding_number_obj.voice_url.split("=")[1].strip("&")
 
-    def getCurrentForwardingDestinations2(self):
+    def getCurrentForwardingDestinations2(self): #Returns a tuple with the first element a list of simulring numbers
+        #curently on call and the second item the fail number string
         current_numbers = []
 
-        self.forwarding_number_obj.voice_url.split("=")
-        return self.forwarding_number_obj.voice_url.split("=")
+        split_url = self.forwarding_number_obj.voice_url.split("=")
+        for part in split_url:
+            if str(part).__contains__("-"):
+                current_numbers.append(part.split("&")[0])
+        fail_number = current_numbers[current_numbers.__len__() - 1]
+        current_numbers.pop(current_numbers.__len__() - 1)
+        return (current_numbers, fail_number)
 
     def getCurrentPersonOnDuty(self):
         on_duty_names = []
@@ -91,7 +95,7 @@ class Location:
 
         return on_duty_names
 
-    def getCurrentPersonOnDuty2(self):
+    def getCurrentPersonsOnDuty2(self):
         on_duty_names = []
 
         curr_date = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -152,8 +156,8 @@ def testLocation():
     location = Location(info)
     location.getCurrentPersonOnDuty()
     
-    #location.update()
-    #print location.getCurrentForwardingDestination()
+    location.update()
+    print location.getCurrentForwardingDestination()
 
 
 
