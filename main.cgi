@@ -104,12 +104,8 @@ def showLocationInterface(loc_name):
     '''
 
 def includeLocation(loc_name):
-    loc = ""
+    loc = getLocationFromName(loc_name)
 
-    for l in locations:
-        if l.getInfo()["location_name"].lower() == loc_name.lower():
-            loc = l
-            break
     info = loc.getInfo()
 
     print "<div id='locationContainer'>"
@@ -145,6 +141,15 @@ def includeContactListForm(info):
         print       "</tr>"
     print       "</table>"
     print       "<input type='submit' value='Remove selected contacts'>"
+    print   "</form>"
+    print
+    print   "<form id='contactListAddForm' method=POST action='main.cgi?location=" + info["location_name"] + "&addContact'>"
+    print       "<a class='show_hide' href='#' rel='#newContact'>+Add a contact</a>" 
+    print       "<div id='newContact' class='toggleDiv' style='display: none;'>"
+    print           "<input type=text name='contact' value='Name'>"
+    print           "<input type=text name='phone' value='Phone'>"
+    print           "<input type=submit value='Add contact'>"
+    print       "</div>"
     print   "</form>"
     print "</div>"
 
@@ -214,19 +219,35 @@ def parseNewLocationForm(form):
         contact_list[name] = number
 
     new_info["contact_list"] = contact_list
+
+    new_info['isResLife'] = False # TODO make this a toggle in the interface
+
     return new_info
+
+def getLocationFromName(loc_name):
+    for l in locations:
+        if l.getInfo()['location_name'].lower() == loc_name.lower():
+            return l
+    showErrors("Unknown location " + loc_name)
+    
 
 def removeContacts(loc_name, form):
     remove_contacts = form.getlist("contact")
     temp = []
-    loc = ""
-    for l in locations:
-        if l.getInfo()["location_name"].lower() == loc_name.lower():
-            loc = l
-            break
+    loc = getLocationFromName(loc_name)
     info = loc.getInfo()
+    
     for r_con in remove_contacts:
         del info["contact_list"][r_con]
+
+def addContact(loc_name, form):
+    name = form['contact'].value
+    number = form['phone'].value
+
+    loc = getLocationFromName(loc_name)
+    info = loc.getInfo()
+
+    info['contact_list'][name] = number
 
 
 def addNewLocation(form):
@@ -269,6 +290,10 @@ def main():
         if "removeContact" in loc_name:
             loc_name = loc_name.split("&")[0]
             removeContacts(loc_name, form)
+
+        if "addContact" in loc_name:
+            loc_name = loc_name.split("&")[0]
+            addContact(loc_name, form)
         
         showLocationInterface(loc_name)
 
