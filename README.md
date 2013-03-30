@@ -11,6 +11,7 @@ TODO
   - any API unreachable
   - invalid/malformed query string
   - can't find person on duty in contact list
+  - invalid form data (maybe JavaScript form validation)
   - more...
 * add entries to contact list for a location
 * link to location-specific interface from admin/main
