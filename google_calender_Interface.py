@@ -1,7 +1,9 @@
 from icalendar import Calendar
 import urllib
-from datetime import date
+from datetime import date,timedelta
 import datetime
+from dateutil import tz
+import os
 import time
 import pytz
 
@@ -23,8 +25,8 @@ for vevent in ical.subcomponents:
     title = str(vevent.get('SUMMARY'))
     description = str(vevent.get('DESCRIPTION'))
     location = str(vevent.get('LOCATION'))
-    start = vevent.get('DTSTART').dt      # a datetime
-    end = vevent.get('DTEND').dt        # a datetime
+    start = vevent.get('DTSTART').dt + timedelta(hours=-5)     # a datetime plus time zone conversion
+    end = vevent.get('DTEND').dt + timedelta(hours=-5)       # a datetime plus time zone converstion
     dtstamp = vevent.get('DTSTAMP').dt  #date time stamp
     print "Title: |" + title + "|"
     print "Start: ", start
@@ -33,12 +35,15 @@ for vevent in ical.subcomponents:
     try:
         eventStartTime = start.time()
         eventEndTime = end.time()
+
     except:
         hasTime = False
     if hasTime:
         #Create Another Function to Handle Time Specified Events
         print "This event HAS a TIME"
-        if (eventStartTime <= datetime.datetime.now().time() and eventEndTime <= datetime.datetime.now().time()):
+        print "NOW TIME IS: " + str(datetime.datetime.now())
+        #and end.replace(tzinfo=None) <= datetime.datetime.now()
+        if (start.replace(tzinfo=None) <= datetime.datetime.now() and end.replace(tzinfo=None) >= datetime.datetime.now()):
             print "THIS EVENT IS GOING ON NOW"
     if isResLife:
         startDuty = datetime.datetime(start.year, start.month, start.day, 19,0,0,0)
