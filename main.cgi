@@ -168,6 +168,7 @@ def includeNewLocationForm():
                     Location name: <input type='text' name='name' value=""/><br>
                     Duty calendar url: <input type='text' name='cal' value=""/><br>
                     Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
+                    Is Res-life: <input type=checkbox name='isResLife' value='True'><br>
                     Phone number list (name:xxx-xxx-xxx): <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
                     <input type="submit" value="Add location"/>
                 </form>
@@ -188,10 +189,11 @@ def includeAllCurrentLocations():
         print    "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
         print    "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
         print    "<span class='small gray'>"
-        print    "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
-        print    "<div id='advancedInfo' class='toggleDiv' style='display: none;'>"
+        print    "<a class='show_hide' href='#' rel='#advancedInfo" + info['location_name'] + "'>+Advanced Information</a>"
+        print    "<div id='advancedInfo" + info['location_name'] + "' class='toggleDiv' style='display: none;'>"
         print       "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
         print       "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
+        print       "<b>Is Res-life?</b>: " + str(info['isResLife']) + "<br>"
         print    "</div>"
         print    "</span>"
         print "</li>"
@@ -207,6 +209,10 @@ def parseNewLocationForm(form):
     new_info["location_name"] = form["name"].value
     new_info["calendar_url"] = form["cal"].value
     new_info["forwarding_number_id"] = form["twilio_id"].value
+    if(form['isResLife'].value  == 'True'):
+        new_info['isResLife'] = True
+    else:
+        new_info['isResLife'] = False
     
     contact_list = {}
 
@@ -219,8 +225,6 @@ def parseNewLocationForm(form):
         contact_list[name] = number
 
     new_info["contact_list"] = contact_list
-
-    new_info['isResLife'] = False # TODO make this a toggle in the interface
 
     return new_info
 

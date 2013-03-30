@@ -2,6 +2,7 @@ from twilio.rest import TwilioRestClient
 import datetime
 from icalendar import Calendar
 import urllib
+from dateutil import tz
 
 class Location:
     def __init__(self, info):
@@ -72,6 +73,15 @@ class Location:
                 continue
 
             start_date = vevent.get('DTSTART').dt.strftime("%Y-%m-%d")  # .dt is a datetime, start_date will be a string
+            
+            if(isinstance(start_date, datetime.datetime)):
+                pass
+                #print start_date.astimezone(tz.tzlocal())
+                #print "It's a datetime!"
+            elif(isinstance(start_date, datetime.date)):
+                pass
+                #print start_date
+                #print "It's a date!"
 
             if(start_date == curr_date): # if this event is for today
                 title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully an RA name)
@@ -138,10 +148,11 @@ def testLocation():
     info["isResLife"] = True
 
     location = Location(info)
-    print location.getCurrentForwardingDestinations2()
+    location.getCurrentPersonOnDuty()
     
     #location.update()
     #print location.getCurrentForwardingDestination()
+
 
 
 #testLocation()
