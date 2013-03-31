@@ -10,6 +10,7 @@ class Location:
         self.twilio_client = TwilioRestClient()
         self.forwarding_number_obj = self.twilio_client.phone_numbers.get(self.info["forwarding_number_id"])
         self.isResLife = info["isResLife"]
+        self.update()
 
     def getInfo(self):
         return self.info
@@ -18,7 +19,8 @@ class Location:
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
         curr_forwarding_destination = self.getCurrentForwardingDestination()
 
-        new_person_on_duty = self.getCurrentPersonOnDuty()[0] # TODO handle multiples
+        duty_list = self.getCurrentPersonOnDuty()
+        new_person_on_duty = duty_list[0] # TODO handle multiples
         new_forwarding_destination = self.info["contact_list"][new_person_on_duty]
 
         if not curr_forwarding_destination == new_forwarding_destination:
@@ -67,8 +69,6 @@ class Location:
     def getCurrentPersonOnDuty(self):
         on_duty_names = []
 
-        #curr_date = datetime.datetime.now() #.strftime("%Y-%m-%d")
-
         ics = urllib.urlopen(self.info["calendar_url"]).read()
         ical = Calendar.from_ical(ics)
 
@@ -79,21 +79,32 @@ class Location:
             start_date = vevent.get('DTSTART').dt #.strftime("%Y-%m-%d")  # .dt is a datetime or date
             end_date = vevent.get('DTEND').dt
             
-            if(isinstance(start_date, datetime.datetime)):
-                # it's a datetime.datetime object (includes time)
-                start_date = start_date.astimezone(tz.tzlocal()) # convert to local time
-                end_date = end_date.astimezone(tz.tzlocal())
-                curr_date = datetime.datetime.now(tz.tzlocal())
+            if isinstance(start_date, datetime.datetime):
+                    # it's a datetime.datetime object (includes time)
+                    start_date = start_date.astimezone(tz.tzlocal()) # convert to local time
+                    end_date = end_date.astimezone(tz.tzlocal())
+                    curr_date = datetime.datetime.now(tz.tzlocal())
+            elif isinstance(start_date, datetime.date):
+                    # it's a datetime.date object (does not include time)
+                    curr_date = datetime.date.today()
+                    if self.isResLife == True:
+                        nowTime = datetime.datetime.now().time()
+                        midnightTime = datetime.time(23, 59, 59)
+                        sevenPMTime = datetime.time(19,0,0)
+                        eightAMTime = datetime.time(8,0,0)
 
-            elif(isinstance(start_date, datetime.date)):
-                # it's a datetime.date object (does not include time)
-                curr_date = datetime.date.today()
+                        if sevenPMTime <= nowTime or nowTime <= eightAMTime:
+                            pass 
+                        else:
+                            #print "Not in on-duty time range" # TODO remove
+                            return ["ResLife Office"]
 
-            if(start_date <= curr_date <= end_date): # if this event is right now
-                title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully an RA name)
-                on_duty_names.append(title)
+            if start_date <= curr_date <= end_date: # if this event is right now
+                    title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully  name)
+                    on_duty_names.append(title)
 
         return on_duty_names
+
 
     def getCurrentPersonsOnDuty2(self):
         on_duty_names = []
@@ -151,14 +162,11 @@ def testLocation():
     info["calendar_url"] = calendar_url
     info["forwarding_number_id"] = forwarding_number_id
     info["contact_list"] = contact_list
-    info["isResLife"] = True
+    info["isResLife"] = False
 
     location = Location(info)
-    location.getCurrentPersonOnDuty()
-    
     location.update()
-    print location.getCurrentForwardingDestination()
-
+    print location.getCurrentPersonOnDuty()
 
 
 #testLocation()

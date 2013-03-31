@@ -169,6 +169,7 @@ def includeNewLocationForm():
                     Location name: <input type='text' name='name' value=""/><br>
                     Duty calendar url: <input type='text' name='cal' value=""/><br>
                     Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
+                    <input type='hidden' value='False' name='isResLife'>
                     Is Res-life: <input type=checkbox name='isResLife' value='True'><br>
                     Phone number list (name:xxx-xxx-xxx): <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
                     <input type="submit" value="Add location"/>
@@ -259,6 +260,7 @@ def addNewLocation(form):
     new_info = parseNewLocationForm(form)
     new_location = Location(new_info)
     locations.append(new_location)
+    new_location.update()
 
 def removeLocations(form):
     remove_loc = form.getlist("location")
