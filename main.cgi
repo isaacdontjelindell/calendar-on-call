@@ -210,7 +210,7 @@ def includeAllCurrentLocations():
         info = loc.getInfo()
         print "<li>"
         print    "<input type='checkbox' name='location' value='" + info["location_name"] + "'>"
-        print    "Location: " + info["location_name"] + "<br>"
+        print    "Location: <a href='main.cgi?location=" + info["location_name"] + "'>" + info["location_name"] + "</a><br>"
         print    "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
         print    "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
         print    "<span class='small gray'>"
