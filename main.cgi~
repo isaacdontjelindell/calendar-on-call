@@ -133,8 +133,9 @@ def includeIsResLifeToggleForm(info):
     curr_isResLife = info['isResLife']
 
     print "<div id='isResLifeToggle'>"
-    print   "<form id='resLifeToggleForm' method=POST action=''>"
+    print   "<form id='resLifeToggleForm' method=POST action='main.cgi'>"
     print       "<input type=hidden name='formName' value='resLifeToggleForm'>"
+    print       "<input type=hidden name='location' value='" + info['location_name'] + "'>"
 
     print       "<input type='hidden' value='False' name='isResLife'>"
     if curr_isResLife:
@@ -148,8 +149,9 @@ def includeContactListForm(info):
     cl = info["contact_list"]
 
     print "<div id='contactList'>"
-    print   "<form id='contactListRemoveForm' method=POST action=''>" 
+    print   "<form id='contactListRemoveForm' method=POST action='main.cgi'>" 
     print       "<input type=hidden name='formName' value='contactListRemoveForm'>"
+    print       "<input type=hidden name='location' value='" + info['location_name'] + "'>"
 
     print       "<table>"
     for contact in cl:
@@ -162,12 +164,12 @@ def includeContactListForm(info):
     print       "<input type='submit' value='Remove selected contacts'>"
     print   "</form>"
     print
-    print   "<form id='contactListAddForm' method=POST action=''>"
+    print   "<form id='contactListAddForm' method=POST action='main.cgi'>"
+    print       "<input type=hidden name='formName' value='contactListAddForm'>"
+    print       "<input type=hidden name='location' value='" + info['location_name'] + "'>"
 
     print       "<a class='show_hide' href='#' rel='#newContact'>+Add a contact</a>" 
     print       "<div id='newContact' class='toggleDiv' style='display: none;'>"
-    print           "<input type=hidden name='formName' value='contactListAddForm'>"
-
     print           "<input type=text name='contact' value='Name'>"
     print           "<input type=text name='phone' value='Phone'>"
     print           "<input type=submit value='Add contact'>"
@@ -186,12 +188,14 @@ def includeNewLocationForm():
         <a class="show_hide" href="#" rel="#newLocationContainer">+Add a new location</a>
         <div id="newLocationContainer" class="toggleDiv" style="display: none;">
             <div id="newLocationForm">
-                <form method=POST action="" name="newLocation">
+                <form method=POST action="main.cgi" name="newLocation">
                     <input type=hidden name='formName' value='newLocationForm'>'''
+    print           "<input type=hidden name='location' value='" + info['location_name'] + "'>"
     print '''
                     Location name: <input type='text' name='name' value=""/><br>
                     Duty calendar url: <input type='text' name='cal' value=""/><br>
                     Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
+                    <input type='hidden' value='False' name='isResLife'>
                     Is Res-life: <input type=checkbox name='isResLife' value='True'><br>
                     Phone number list (name:xxx-xxx-xxx): <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
                     <input type="submit" value="Add location"/>
@@ -205,6 +209,7 @@ def includeAllCurrentLocations():
     print "<div id='locations'>"
     print '''<form method=POST action="main.cgi" name="removeLocation">'''
     print       "<input type=hidden name='formName' value='removeLocationForm'>"
+    print       "<input type=hidden name='location' value='" + info['location_name'] + "'>"
     print   "<ul>"
     for loc in locations:
         info = loc.getInfo()
@@ -234,7 +239,7 @@ def parseNewLocationForm(form):
     new_info["location_name"] = form["name"].value
     new_info["calendar_url"] = form["cal"].value
     new_info["forwarding_number_id"] = form["twilio_id"].value
-    if "isResLife" in form:
+    if(form['isResLife'].value  == 'True'):
         new_info['isResLife'] = True
     else:
         new_info['isResLife'] = False
@@ -282,6 +287,7 @@ def addContact(loc_name, form):
 
     info['contact_list'][name] = number
 
+
 def addNewLocation(form):
     new_info = parseNewLocationForm(form)
     new_location = Location(new_info)
@@ -290,9 +296,14 @@ def addNewLocation(form):
 
 def removeLocations(form):
     remove_loc = form.getlist("location")
-    global locations # I have no idea why this is nessessary here and nowhere else
+    temp = []
+    for r_loc in remove_loc:
+        for loc in locations:
+            if loc.getInfo()["location_name"] == r_loc:
+                temp.append(locations.index(loc))
 
-    locations = [ l for l in locations if not l.getInfo()['location_name'] in remove_loc ]
+    for i in temp:
+        locations.pop(i)
     
 def main():
     cgitb.enable()
@@ -302,34 +313,34 @@ def main():
     query_string = os.environ["QUERY_STRING"]
     form = cgi.FieldStorage() # special object!
     
-    if "location=" in query_string:
+    if(form['formName']):
+        form_name = form['formName'].value
+
+    if form_name == "newLocationForm":
+        addNewLocation(form)
+        showMainInterface()
+
+    elif form_name == "removeLocationForm":
+        removeLocations(form)
+        showMainInterface()
+
+    elif "location=" in query_string:
         temp = query_string.split("=")
         loc_name = temp[1]
+
+        if form_name == "contactListRemoveForm":
+            loc_name = form['location'].value
+            removeContacts(loc_name, form)
+
+        if form_name == "contactListAddForm":
+            loc_name = form['location'].value
+            addContact(loc_name, form)
+
+        if form_name == "resLifeToggleForm":
+            loc_name = form['location'].value
+            toggleIsResLife(loc_name, form)
         
-        if 'formName' in form:
-            form_name = form['formName'].value
-
-            if form_name == "contactListRemoveForm":
-                removeContacts(loc_name, form)
-
-            if form_name == "contactListAddForm":
-                addContact(loc_name, form)
-
-            if form_name == "resLifeToggleForm":
-                toggleIsResLife(loc_name, form)
-             
         showLocationInterface(loc_name)
-
-    elif 'formName' in form:
-         form_name = form['formName'].value
-
-         if form_name == "newLocationForm":
-             addNewLocation(form)
-             showMainInterface()
-
-         elif form_name == "removeLocationForm":
-             removeLocations(form)
-             showMainInterface()
 
     else:
         showMainInterface()
