@@ -9,12 +9,10 @@ TODO
 * Error handling!
   - when there isn't anyone on duty
   - any API unreachable
-  - invalid/malformed query string
   - can't find person on duty in contact list
   - invalid form data (maybe JavaScript form validation)
   - more...
 * link to location-specific interface from admin/main
-* allow enabling/disabling isResLife from location-specific interface
 * change isResLife fallback number in location-specific interface
 * multiple people on duty
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
