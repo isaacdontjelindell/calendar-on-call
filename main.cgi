@@ -112,8 +112,14 @@ def includeLocation(loc_name):
 
     
     print   "Location: " + info["location_name"] + "<br>"
-    print   "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
-    print   "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
+    on_call_list = loc.getCurrentPersonsOnDuty()
+
+    print   "Currently on call: " 
+    for name in on_call_list:
+        print name + " ,"
+
+    forwarding_destinations, fail_number = loc.getCurrentForwardingDestinations()
+    print   "Current forwarding destination: " + forwarding_destinations.__str__() + "<br>"
 
     print   "<span class='small gray'>"
     print       "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
@@ -211,8 +217,13 @@ def includeAllCurrentLocations():
         print "<li>"
         print    "<input type='checkbox' name='location' value='" + info["location_name"] + "'>"
         print    "Location: <a href='main.cgi?location=" + info["location_name"] + "'>" + info["location_name"] + "</a><br>"
-        print    "Currently on call: " + loc.getCurrentPersonOnDuty()[0] + "<br>"   # TODO handle multiple
-        print    "Current forwarding destination: " + loc.getCurrentForwardingDestination() + "<br>"
+        on_duty_list = loc.getCurrentPersonsOnDuty()
+        print    "Currently on call: "
+        for name in on_duty_list:
+            print (name + ", ")
+        print "<br>"
+        forwarding_destinations, fail_number = loc.getCurrentForwardingDestinations()
+        print    "Current forwarding destination: " + forwarding_destinations.__str__() + "<br>"
         print    "<span class='small gray'>"
         print    "<a class='show_hide' href='#' rel='#advancedInfo" + info['location_name'] + "'>+Advanced Information</a>"
         print    "<div id='advancedInfo" + info['location_name'] + "' class='toggleDiv' style='display: none;'>"

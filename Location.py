@@ -10,12 +10,13 @@ class Location:
         self.twilio_client = TwilioRestClient()
         self.forwarding_number_obj = self.twilio_client.phone_numbers.get(self.info["forwarding_number_id"])
         self.isResLife = info["isResLife"]
+        self.info['contact_list']['ResLife Office'] = "563-387-1330"
         self.update()
-
+        
     def getInfo(self):
         return self.info
 
-    def update(self):
+    def update2(self):
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
         curr_forwarding_destination = self.getCurrentForwardingDestination()
 
@@ -26,23 +27,24 @@ class Location:
         if not curr_forwarding_destination == new_forwarding_destination:
             self.updateForwardingDestination(new_forwarding_destination)
 
-    def update2(self):
+    def update(self):
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
-        curr_forwarding_destinations,failNum = self.getCurrentForwardingDestinations2()
+        curr_forwarding_destinations,failNum = self.getCurrentForwardingDestinations()
+            
+        new_forwarding_destinations = []
 
-        for name in self.getCurrentPersonsOnDuty2():
+        for name in self.getCurrentPersonsOnDuty():
             new_person_on_duty = name
-            new_forwarding_destinations = []
-            new_forwarding_destinations.append(self.info["contact_list"][str(new_person_on_duty).strip().lower()])
+            new_forwarding_destinations.append(self.info["contact_list"][str(new_person_on_duty).strip()])
 
         if not curr_forwarding_destinations == new_forwarding_destinations:
-            self.updateForwardingDestinations2(new_forwarding_destinations, failNum)
+            self.updateForwardingDestinations(new_forwarding_destinations, failNum)
 
-    def updateForwardingDestination(self, new_destination_number):
+    def updateForwardingDestination_old(self, new_destination_number):
         voice_URL = "http://twimlets.com/forward?PhoneNumber=" + new_destination_number + "&"
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
-    def updateForwardingDestinations2(self, new_destination_numbers, failNumber):
+    def updateForwardingDestinations(self, new_destination_numbers, failNumber):
         voice_URL = "http://twimlets.com/simulring?"
         incrementNum = 0;
         for number in new_destination_numbers:
@@ -51,10 +53,10 @@ class Location:
         voice_URL = voice_URL + "http://twimlets.com/forward?PhoneNumber=" + failNumber + "&"
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
-    def getCurrentForwardingDestination(self):
+    def getCurrentForwardingDestination_old(self):
         return self.forwarding_number_obj.voice_url.split("=")[1].strip("&")
 
-    def getCurrentForwardingDestinations2(self): #Returns a tuple with the first element a list of simulring numbers
+    def getCurrentForwardingDestinations(self): #Returns a tuple with the first element a list of simulring numbers
         #curently on call and the second item the fail number string
         current_numbers = []
 
@@ -66,7 +68,7 @@ class Location:
         current_numbers.pop(current_numbers.__len__() - 1)
         return (current_numbers, fail_number)
 
-    def getCurrentPersonOnDuty(self):
+    def getCurrentPersonsOnDuty(self):
         on_duty_names = []
 
         ics = urllib.urlopen(self.info["calendar_url"]).read()
@@ -155,7 +157,6 @@ def testLocation():
     contact_list = {}
     contact_list["Isaac DL"] = "612-978-3683"
     contact_list["Austen Smith"] = "319-743-8485"
-    contact_list["ResLife Office"] = "563-387-1330"
 
     info = {}
     info["location_name"] = "Brandt Hall"
@@ -165,8 +166,9 @@ def testLocation():
     info["isResLife"] = False
 
     location = Location(info)
+
+    print location.getCurrentPersonsOnDuty()
     location.update()
-    print location.getCurrentPersonOnDuty()
 
 
 #testLocation()
