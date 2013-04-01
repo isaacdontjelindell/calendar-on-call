@@ -125,7 +125,21 @@ def includeLocation(loc_name):
     print   "</span>"
     
     includeContactListForm(info)    
+    includeIsResLifeToggleForm(info)
 
+    print "</div>"
+
+def includeIsResLifeToggleForm(info):
+    curr_isResLife = info['isResLife']
+
+    print "<div id='isResLifeToggle'>"
+    print   "<form id='resLifeToggleForm' method=POST action='main.cgi?location=" + info["location_name"] + "&isResLife'>"
+    print       "<input type='hidden' value='False' name='isResLife'>"
+    if curr_isResLife:
+        print   "Is Res-life: <input type=checkbox name='isResLife' value='True' checked onclick='this.form.submit();'><br>"
+    else:
+        print   "Is Res-life: <input type=checkbox name='isResLife' value='True' onclick='this.form.submit();'><br>"
+    print   "</form>"
     print "</div>"
 
 def includeContactListForm(info):
@@ -237,9 +251,13 @@ def getLocationFromName(loc_name):
     showErrors("Unknown location " + loc_name)
     
 
+def toggleIsResLife(loc_name, form):
+    loc = getLocationFromName(loc_name)
+
+    loc.getInfo()['isResLife'] = not loc.getInfo()['isResLife']
+
 def removeContacts(loc_name, form):
     remove_contacts = form.getlist("contact")
-    temp = []
     loc = getLocationFromName(loc_name)
     info = loc.getInfo()
     
@@ -301,6 +319,10 @@ def main():
         if "addContact" in loc_name:
             loc_name = loc_name.split("&")[0]
             addContact(loc_name, form)
+
+        if "isResLife" in loc_name:
+            loc_name = loc_name.split("&")[0]
+            toggleIsResLife(loc_name, form)
         
         showLocationInterface(loc_name)
 
