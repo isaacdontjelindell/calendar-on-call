@@ -11,9 +11,10 @@ TODO
   - any API unreachable
   - can't find person on duty in contact list
   - invalid form data (maybe JavaScript form validation)
+  - Case-insensitive contact list
   - more...
-* link to location-specific interface from admin/main
 * change isResLife fallback number in location-specific interface
+* if not isResLife, ignore yesterday's duty persons
 * multiple people on duty
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
 * more...
