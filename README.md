@@ -11,6 +11,7 @@ TODO
   - any API unreachable
   - can't find person on duty in contact list
   - invalid form data (maybe JavaScript form validation)
+  - Case-insensitive contact list
   - more...
 * change isResLife fallback number in location-specific interface
 * multiple people on duty
