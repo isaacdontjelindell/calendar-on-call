@@ -13,10 +13,10 @@ TODO
   - can't find person on duty in contact list
   - invalid form data (maybe JavaScript form validation)
   - more...
-* add entries to contact list for a location
 * link to location-specific interface from admin/main
+* allow enabling/disabling isResLife from location-specific interface
+* change isResLife fallback number in location-specific interface
 * multiple people on duty
-* time checks for reslife applications (person on duty on 25th is actually on call until 7am on 26th, etc)
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
 * more...
 
