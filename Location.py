@@ -23,7 +23,11 @@ class Location:
 
         for name in self.getCurrentPersonsOnDuty():
             new_person_on_duty = name
-            new_forwarding_destinations.append(self.info["contact_list"][str(new_person_on_duty).strip()])
+            try:
+                new_forwarding_destinations.append(self.info["contact_list"][new_person_on_duty.strip()])
+            except KeyError:
+                # TODO better handle this error
+                new_forwarding_destinations.append("000-000-0000")
 
         if not curr_forwarding_destinations == new_forwarding_destinations:
             self.updateForwardingDestinations(new_forwarding_destinations, failNum)
