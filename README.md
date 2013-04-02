@@ -7,7 +7,6 @@ Current live link (to see what it looks like:) [calendar-on-call](http://dev.isa
 TODO
 -------
 * Error handling!
-  - when there isn't anyone on duty
   - any API unreachable
   - can't find person on duty in contact list
   - invalid form data (maybe JavaScript form validation)
