@@ -89,51 +89,12 @@ class Location:
             if start_date <= curr_date <= end_date: # if this event is right now
                     title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully  name)
                     on_duty_names.append(title)
-
+        
+        # handle case where nobody is on duty calendar
+        if len(on_duty_names) == 0:
+            on_duty_names.append("ResLife Office")
         return on_duty_names
 
-
-    def getCurrentPersonsOnDuty2(self):
-        on_duty_names = []
-
-        curr_date = datetime.datetime.now().strftime("%Y-%m-%d")
-
-        ics = urllib.urlopen(self.info["calendar_url"]).read()
-        ical = Calendar.from_ical(ics)
-
-        for vevent in ical.subcomponents:
-            if vevent.name != "VEVENT":  # if it's not an event, ignore it
-                continue
-
-            start_date = vevent.get('DTSTART').dt.strftime()  # .dt is a datetime, start_date will be a string
-
-            start = vevent.get('DTSTART').dt + datetime.timedelta(hours=-5)     # a datetime
-            end = vevent.get('DTEND').dt + datetime.timedelta(hours=-5)     # a datetime
-            title = str(vevent.get('SUMMARY'))
-
-            hasTime = True
-            try:
-                eventStartTime = start.time()
-                eventEndTime = end.time()
-            except:
-                hasTime = False
-            if hasTime:
-                print "This event HAS a TIME"
-                if (start.replace(tzinfo=None) <= datetime.datetime.now() and end.replace(tzinfo=None) >= datetime.datetime.now()):
-                    on_duty_names.append(title)
-            else:
-                if (self.isResLife and not hasTime):
-                    startDuty = datetime.datetime(start.year, start.month, start.day, 19,0,0,0)
-                    endDuty = datetime.datetime(start.year, start.month, start.day + 1, 8,0,0,0)
-                    if (datetime.datetime.now() >= startDuty and datetime.datetime.now() <= endDuty):
-                        on_duty_names.append(title)
-                    else:
-                        on_duty_names.append("ResLife Office")
-                else:
-                    if(start_date == curr_date):
-                        on_duty_names.append(title)
-
-        return on_duty_names
 
 def testLocation():
     calendar_url= "http://www.google.com/calendar/ical/luther.edu_p5c373m13dppnsqeajcs4se5nc%40group.calendar.google.com/public/basic.ics"
