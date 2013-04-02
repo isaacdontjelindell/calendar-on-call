@@ -14,8 +14,7 @@ TODO
   - Case-insensitive contact list
   - more...
 * change isResLife fallback number in location-specific interface
-* multiple people on duty
-* refresh on isResLife toggle
+* call update on isResLife toggle (to avoid needing another refresh to see changes)
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
 * more...
 
