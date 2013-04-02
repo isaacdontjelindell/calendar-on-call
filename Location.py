@@ -35,9 +35,18 @@ class Location:
     def updateForwardingDestinations(self, new_destination_numbers, failNumber):
         voice_URL = "http://twimlets.com/simulring?"
         incrementNum = 0;
+
+        oldDestinationNumbers = self.getCurrentForwardingDestinations()
+
         for number in new_destination_numbers:
             voice_URL = voice_URL + "PhoneNumbers%5" + str(incrementNum) + "B%5D=" + number + "&"
             incrementNum = incrementNum + 1
+
+            if not number in oldDestinationNumbers:
+                to_number = "+1" + number.replace("-", "")  # +12316851234
+                message = self.twilio_client.sms.messages.create(to=to_number, from_=self.forwarding_number_obj.friendly_name, body="You are now on duty.")
+            
+
         voice_URL = voice_URL + "http://twimlets.com/forward?PhoneNumber=" + failNumber + "&"
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
@@ -68,7 +77,7 @@ class Location:
             if isinstance(start_date, datetime.datetime):
                     # it's a datetime.datetime object (includes time)
                     start_date = start_date.astimezone(tz.tzlocal()) # convert to local time
-                    end_date = end_date.astimezone(tz.tzlocal()) - datetime.timedelta(days=1)
+                    end_date = end_date.astimezone(tz.tzlocal())
                     curr_date = datetime.datetime.now(tz.tzlocal())
 
             elif isinstance(start_date, datetime.date):
