@@ -110,16 +110,19 @@ def includeLocation(loc_name):
 
     print "<div id='locationContainer'>"
 
-    
     print   "Location: " + info["location_name"] + "<br>"
-    on_call_list = loc.getCurrentPersonsOnDuty()
 
+    on_call_list = loc.getCurrentPersonsOnDuty()
     print   "Currently on call: " 
     for name in on_call_list:
-        print name + " ,"
+        print name + ", "
+    print "<br>"
 
     forwarding_destinations, fail_number = loc.getCurrentForwardingDestinations()
-    print   "Current forwarding destination: " + forwarding_destinations.__str__() + "<br>"
+    print   "Current forwarding destinations: "
+    for number in forwarding_destinations:
+        print number + ", "
+    print   "<br>"
 
     print   "<span class='small gray'>"
     print       "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
@@ -223,7 +226,12 @@ def includeAllCurrentLocations():
             print (name + ", ")
         print "<br>"
         forwarding_destinations, fail_number = loc.getCurrentForwardingDestinations()
-        print    "Current forwarding destination: " + forwarding_destinations.__str__() + "<br>"
+
+        print    "Current forwarding destinations: "
+        for number in forwarding_destinations:
+            print number + ", "
+        print "<br>"
+
         print    "<span class='small gray'>"
         print    "<a class='show_hide' href='#' rel='#advancedInfo" + info['location_name'] + "'>+Advanced Information</a>"
         print    "<div id='advancedInfo" + info['location_name'] + "' class='toggleDiv' style='display: none;'>"
