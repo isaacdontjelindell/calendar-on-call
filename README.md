@@ -7,8 +7,7 @@ Current live link (to see what it looks like:) [calendar-on-call](http://dev.isa
 TODO
 -------
 * Error handling!
-  - any API unreachable
-  - invalid form data (maybe JavaScript form validation)
+  - bad Google Calendar URL
   - Case-insensitive contact list
   - more...
 * change isResLife fallback number in location-specific interface
