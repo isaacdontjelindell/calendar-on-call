@@ -14,7 +14,6 @@ TODO
   - Case-insensitive contact list
   - more...
 * change isResLife fallback number in location-specific interface
-* if not isResLife, ignore yesterday's duty persons
 * multiple people on duty
 * refresh on isResLife toggle
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
