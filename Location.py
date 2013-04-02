@@ -16,17 +16,6 @@ class Location:
     def getInfo(self):
         return self.info
 
-    def update2(self):
-        ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
-        curr_forwarding_destination = self.getCurrentForwardingDestination()
-
-        duty_list = self.getCurrentPersonOnDuty()
-        new_person_on_duty = duty_list[0] # TODO handle multiples
-        new_forwarding_destination = self.info["contact_list"][new_person_on_duty]
-
-        if not curr_forwarding_destination == new_forwarding_destination:
-            self.updateForwardingDestination(new_forwarding_destination)
-
     def update(self):
         ''' checks for changes to the person on duty and makes necessary changes to forwarding info '''
         curr_forwarding_destinations,failNum = self.getCurrentForwardingDestinations()
@@ -40,10 +29,6 @@ class Location:
         if not curr_forwarding_destinations == new_forwarding_destinations:
             self.updateForwardingDestinations(new_forwarding_destinations, failNum)
 
-    def updateForwardingDestination_old(self, new_destination_number):
-        voice_URL = "http://twimlets.com/forward?PhoneNumber=" + new_destination_number + "&"
-        self.forwarding_number_obj.update(voice_url=voice_URL)
-
     def updateForwardingDestinations(self, new_destination_numbers, failNumber):
         voice_URL = "http://twimlets.com/simulring?"
         incrementNum = 0;
@@ -52,9 +37,6 @@ class Location:
             incrementNum = incrementNum + 1
         voice_URL = voice_URL + "http://twimlets.com/forward?PhoneNumber=" + failNumber + "&"
         self.forwarding_number_obj.update(voice_url=voice_URL)
-
-    def getCurrentForwardingDestination_old(self):
-        return self.forwarding_number_obj.voice_url.split("=")[1].strip("&")
 
     def getCurrentForwardingDestinations(self): #Returns a tuple with the first element a list of simulring numbers
         #curently on call and the second item the fail number string
@@ -98,7 +80,7 @@ class Location:
                         if sevenPMTime <= nowTime or nowTime <= eightAMTime:
                             pass 
                         else:
-                            #print "Not in on-duty time range" # TODO remove
+                            #print "Not in on-duty time range" 
                             return ["ResLife Office"]
 
             if start_date <= curr_date <= end_date: # if this event is right now
