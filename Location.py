@@ -66,11 +66,14 @@ class Location:
             if isinstance(start_date, datetime.datetime):
                     # it's a datetime.datetime object (includes time)
                     start_date = start_date.astimezone(tz.tzlocal()) # convert to local time
-                    end_date = end_date.astimezone(tz.tzlocal())
+                    end_date = end_date.astimezone(tz.tzlocal()) - datetime.timedelta(days=1)
                     curr_date = datetime.datetime.now(tz.tzlocal())
+
             elif isinstance(start_date, datetime.date):
                     # it's a datetime.date object (does not include time)
                     curr_date = datetime.date.today()
+                    end_date = end_date - datetime.timedelta(days=1)
+
                     if self.isResLife == True:
                         nowTime = datetime.datetime.now().time()
                         midnightTime = datetime.time(23, 59, 59)
