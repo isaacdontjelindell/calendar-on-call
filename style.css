@@ -9,8 +9,11 @@ body {
     margin: 0px 15px 0px 0px;
 }
 
-.location {
+#locations {
     float: left;
+}
+
+.location {
     width: 480px;
     background: #70B8FF;
     border-style: solid;

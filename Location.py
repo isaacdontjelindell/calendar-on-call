@@ -57,7 +57,7 @@ class Location:
         split_url = self.forwarding_number_obj.voice_url.split("=")
         for part in split_url:
             if str(part).__contains__("-"):
-                current_numbers.append(part.split("&")[0])
+                current_numbers.append(str(part.split("&")[0]))
         fail_number = current_numbers.pop(current_numbers.__len__() - 1)
         return (current_numbers, fail_number)
 
@@ -123,9 +123,9 @@ def testLocation():
     info["isResLife"] = False
 
     location = Location(info)
+    
+    print location.getCurrentForwardingDestinations()
 
-    print location.getCurrentPersonsOnDuty()
-    location.update()
 
 
 #testLocation()
