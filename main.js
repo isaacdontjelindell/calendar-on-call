@@ -47,3 +47,77 @@ $(document).ready(function(){
  
 });
 
+
+function validateNewContact()
+{
+    var name=document.forms["contactListAddForm"]["contact"].value;
+    var number=document.forms["contactListAddForm"]["phone"].value;
+    console.log(number);
+    console.log(name);
+    if (name==null || name=="")
+    {
+        alert("A Name Must be Given");
+        return false;
+    }
+    var format = "999-999-9999";
+    var r = RegExp("^(" +
+        format
+            .replace(/([\(\)])/g, "\\$1")
+            .replace(/9/g,"\\d") +
+        ")$");
+    if(! r.test(number))
+    {
+        alert("The Number Entered is not in the correct format");
+        return false;
+    }
+
+    return true
+}
+
+function validateNewLocation()
+{
+    var locName=document.forms["newLocation"]["name"].value;
+    var calender=document.forms["newLocation"]["cal"].value;
+    var twilio_id=document.forms["newLocation"]["twilio_id"].value;
+    var contacts=document.forms["newLocation"]["contacts"].value;
+    if (locName == null || locName == "") {
+        alert("Location Name must be provided")
+        return false
+    }
+    if (calender == null || calender == "") {
+        alert("Calender url must be provided")
+        return false
+    }
+    if (twilio_id == null || twilio_id == "") {
+        alert("Twilio Id must be provided")
+        return false
+    }
+    contacts = contacts.split("\n");
+    for (var i = 0; i<contacts.length; i++) {
+        temp = contacts[i].split(":");
+        name = temp[0].replace(/^\s+|\s+$/g,'');
+        number = temp [1].replace(/^\s+|\s+$/g,'');
+        console.log(contacts);
+        console.log("|" + name + "|")
+        console.log("|" + number + "|")
+
+        if(name == null || name == "")
+        {
+            alert("Each Contact Must have a name!");
+            return false;
+        }
+        
+        var format = "999-999-9999";
+        var r = RegExp("^(" +
+            format
+                .replace(/([\(\)])/g, "\\$1")
+                .replace(/9/g,"\\d") +
+            ")$");
+        if(! r.test(number))
+        {
+            alert("The Number " + number + " is not in the correct format");
+            return false;
+        }
+    }
+    return true;
+}

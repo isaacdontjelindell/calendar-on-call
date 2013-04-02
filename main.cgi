@@ -171,7 +171,7 @@ def includeContactListForm(info):
     print       "<input type='submit' value='Remove selected contacts'>"
     print   "</form>"
     print
-    print   "<form id='contactListAddForm' class='bottommargin' method=POST action=''>"
+    print   "<form id='contactListAddForm' class='bottommargin' method=POST action='' onsubmit='return validateNewContact();'>"
 
     print       "<a class='show_hide' href='#' rel='#newContact'>+Add a contact</a>" 
     print       "<div id='newContact' class='toggleDiv' style='display: none;'>"
@@ -190,7 +190,7 @@ def includeNewLocationForm():
         <div id="newLocationForm" class='sidebar'">
             <a class="show_hide" href="#" rel="#newLocationContainer">+Add a new location</a>
             <div id="newLocationContainer" class="toggleDiv" style="display: none;">
-                <form method=POST action="" name="newLocation">
+                <form method=POST action="" name="newLocation" onsubmit='return validateNewLocation();'>
                     <input type=hidden name='formName' value='newLocationForm'>'''
     print '''
                     Location name: <input type='text' name='name' value=""/><br>

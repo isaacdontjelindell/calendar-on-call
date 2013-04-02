@@ -13,6 +13,7 @@ body {
     float: left;
     width: 480px;
     background: #70B8FF;
+    border-style: solid;
     border-width: 1px;
     border-radius: 3px;
     box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.80);
@@ -24,6 +25,7 @@ body {
 .sidebar {
     float: right;
     width: 340px;
+    border-style: solid;
     background: #70B8FF;
     border-width: 1px;
     border-radius: 3px;
