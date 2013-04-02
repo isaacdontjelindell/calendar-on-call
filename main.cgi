@@ -71,9 +71,8 @@ def showMainInterface():
             </head>
             <body>
     '''
-    includeNewLocationForm()
     includeAllCurrentLocations()
-    includeUpdateButton()
+    includeNewLocationForm()
 
     print '''
             </body>
@@ -108,7 +107,7 @@ def includeLocation(loc_name):
 
     info = loc.getInfo()
 
-    print "<div id='locationContainer'>"
+    print "<div id='locationContainer' class='location'>"
 
     print   "Location: " + info["location_name"] + "<br>"
 
@@ -132,17 +131,19 @@ def includeLocation(loc_name):
     print           "<b>Is Res-life?</b>: " + str(info['isResLife']) + "<br>"
     print        "</div>"
     print   "</span>"
-    
+    print "</div>"
+
+    print "<div id='locationSettingsContainer' class='sidebar'>"
     includeContactListForm(info)    
     includeIsResLifeToggleForm(info)
-
     print "</div>"
+
 
 def includeIsResLifeToggleForm(info):
     curr_isResLife = info['isResLife']
 
     print "<div id='isResLifeToggle'>"
-    print   "<form id='resLifeToggleForm' method=POST action=''>"
+    print   "<form id='resLifeToggleForm' class='bottommargin' method=POST action=''>"
     print       "<input type=hidden name='formName' value='resLifeToggleForm'>"
 
     if curr_isResLife:
@@ -156,7 +157,7 @@ def includeContactListForm(info):
     cl = info["contact_list"]
 
     print "<div id='contactList'>"
-    print   "<form id='contactListRemoveForm' method=POST action=''>" 
+    print   "<form id='contactListRemoveForm' class='bottommargin' method=POST action=''>" 
     print       "<input type=hidden name='formName' value='contactListRemoveForm'>"
 
     print       "<table>"
@@ -170,30 +171,25 @@ def includeContactListForm(info):
     print       "<input type='submit' value='Remove selected contacts'>"
     print   "</form>"
     print
-    print   "<form id='contactListAddForm' method=POST action=''>"
+    print   "<form id='contactListAddForm' class='bottommargin' method=POST action=''>"
 
     print       "<a class='show_hide' href='#' rel='#newContact'>+Add a contact</a>" 
     print       "<div id='newContact' class='toggleDiv' style='display: none;'>"
     print           "<input type=hidden name='formName' value='contactListAddForm'>"
 
-    print           "<input type=text name='contact' value='Name'>"
-    print           "<input type=text name='phone' value='Phone'>"
+    print           "<input type=text name='contact' value='Name'><br>"
+    print           "<input type=text name='phone' value='Phone'><br>"
     print           "<input type=submit value='Add contact'>"
     print       "</div>"
     print   "</form>"
     print "</div>"
 
 
-def includeUpdateButton():
-    print '''
-        <input type="button" onclick="var img = new Image(); img.src='update.cgi'" value="Update forwarding numbers based on duty calendars. (Refresh page to see changes)">
-    '''
-
 def includeNewLocationForm():
     print '''
-        <a class="show_hide" href="#" rel="#newLocationContainer">+Add a new location</a>
-        <div id="newLocationContainer" class="toggleDiv" style="display: none;">
-            <div id="newLocationForm">
+        <div id="newLocationForm" class='sidebar'">
+            <a class="show_hide" href="#" rel="#newLocationContainer">+Add a new location</a>
+            <div id="newLocationContainer" class="toggleDiv" style="display: none;">
                 <form method=POST action="" name="newLocation">
                     <input type=hidden name='formName' value='newLocationForm'>'''
     print '''
@@ -213,10 +209,9 @@ def includeAllCurrentLocations():
     print "<div id='locations'>"
     print '''<form method=POST action="main.cgi" name="removeLocation">'''
     print       "<input type=hidden name='formName' value='removeLocationForm'>"
-    print   "<ul>"
     for loc in locations:
         info = loc.getInfo()
-        print "<li>"
+        print "<div class='location'>"
         print    "<input type='checkbox' name='location' value='" + info["location_name"] + "'>"
         print    "Location: <a href='main.cgi?location=" + info["location_name"] + "'>" + info["location_name"] + "</a><br>"
         on_duty_list = loc.getCurrentPersonsOnDuty()
@@ -239,9 +234,8 @@ def includeAllCurrentLocations():
         print       "<b>Is Res-life?</b>: " + str(info['isResLife']) + "<br>"
         print    "</div>"
         print    "</span>"
-        print "</li>"
+        print "</div>"
     
-    print   "</ul>"
     print   "<input type='submit' value='Remove selected locations'>"
     print   "</form>"
     print "</div>"

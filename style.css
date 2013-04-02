@@ -1,31 +1,38 @@
 body {
     width: 900px;
-    margin: 0px auto 0px auto;
+    margin: 15px auto 0px auto;
+    background: #A4D1FF
 }
 
-#locations ul {
-    list-style-type: none;
-    margin: 0px 0px 5px 0px;
+#locationContainer {
+    float: left;
+    margin: 0px 15px 0px 0px;
 }
 
-#locations li {
-    width: 550px;
-    border-style: solid;
+.location {
+    float: left;
+    width: 480px;
+    background: #70B8FF;
     border-width: 1px;
     border-radius: 3px;
     box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.80);
-    padding: 5px;
-    margin: 0px 0px 5px -35px;
+    padding: 5px 10px;
+    word-wrap: break-word;
+    margin: 0px 0px 15px 0px;
 }
 
-#newLocationForm {
-    width: 350px;
-    border-style: solid;
+.sidebar {
+    float: right;
+    width: 340px;
+    background: #70B8FF;
     border-width: 1px;
     border-radius: 3px;
     box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.80);
-    padding: 7px;
-    margin: 5px;
+    padding: 7px 10px;
+}
+
+.bottommargin {
+    margin: 0px 0px 10px 0px;
 }
 
 .small {
