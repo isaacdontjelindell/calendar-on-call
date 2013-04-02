@@ -145,7 +145,6 @@ def includeIsResLifeToggleForm(info):
     print   "<form id='resLifeToggleForm' method=POST action=''>"
     print       "<input type=hidden name='formName' value='resLifeToggleForm'>"
 
-    print       "<input type='hidden' value='False' name='isResLife'>"
     if curr_isResLife:
         print   "Is Res-life: <input type=checkbox name='isResLife' value='True' checked onclick='this.form.submit();'><br>"
     else:
@@ -283,6 +282,8 @@ def toggleIsResLife(loc_name, form):
     loc = getLocationFromName(loc_name)
 
     loc.getInfo()['isResLife'] = not loc.getInfo()['isResLife']
+
+    loc.update()
 
 def removeContacts(loc_name, form):
     remove_contacts = form.getlist("contact")

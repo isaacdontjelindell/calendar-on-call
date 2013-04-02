@@ -9,7 +9,6 @@ class Location:
         self.info = info
         self.twilio_client = TwilioRestClient()
         self.forwarding_number_obj = self.twilio_client.phone_numbers.get(self.info["forwarding_number_id"])
-        self.isResLife = info["isResLife"]
         self.info['contact_list']['ResLife Office'] = "563-387-1330"
         self.update()
         
@@ -46,8 +45,7 @@ class Location:
         for part in split_url:
             if str(part).__contains__("-"):
                 current_numbers.append(part.split("&")[0])
-        fail_number = current_numbers[current_numbers.__len__() - 1]
-        current_numbers.pop(current_numbers.__len__() - 1)
+        fail_number = current_numbers.pop(current_numbers.__len__() - 1)
         return (current_numbers, fail_number)
 
     def getCurrentPersonsOnDuty(self):
@@ -74,7 +72,7 @@ class Location:
                     curr_date = datetime.date.today()
                     end_date = end_date - datetime.timedelta(days=1)
 
-                    if self.isResLife == True:
+                    if self.info["isResLife"] == True:
                         nowTime = datetime.datetime.now().time()
                         midnightTime = datetime.time(23, 59, 59)
                         sevenPMTime = datetime.time(19,0,0)
