@@ -177,8 +177,8 @@ def includeContactListForm(info):
     print       "<div id='newContact' class='toggleDiv' style='display: none;'>"
     print           "<input type=hidden name='formName' value='contactListAddForm'>"
 
-    print           "<input type=text name='contact' value='Name'><br>"
-    print           "<input type=text name='phone' value='xxx-xxx-xxxx'><br>"
+    print           "<input type=text name='contact' placeholder='Name'><br>"
+    print           "<input type=text name='phone' placeholder='Number (xxx-xxx-xxxx)'><br>"
     print           "<input type=submit value='Add contact'>"
     print       "</div>"
     print   "</form>"

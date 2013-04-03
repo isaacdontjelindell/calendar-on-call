@@ -1,7 +1,9 @@
 body {
     width: 900px;
-    margin: 15px auto 0px auto;
-    background: #A4D1FF
+    margin: 45px auto 0px auto;
+    background-image:url("bg.jpg");
+    background-repeat:no-repeat;
+    background-attachment:fixed; 
 }
 
 #locationContainer {
@@ -15,24 +17,20 @@ body {
 
 .location {
     width: 480px;
-    background: #70B8FF;
-    border-style: solid;
-    border-width: 1px;
+    background-color:rgba(255,255,255,0.45);
     border-radius: 3px;
-    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.80);
-    padding: 5px 10px;
+    box-shadow:0px 0px 24px rgba(255, 255, 255, 0.45);
+    padding: 10px 10px;
     word-wrap: break-word;
     margin: 0px 0px 15px 0px;
 }
 
 .sidebar {
-    float: right;
     width: 340px;
-    border-style: solid;
-    background: #70B8FF;
-    border-width: 1px;
+    float: right;
+    background-color: rgba(255,255,255,0.45);
     border-radius: 3px;
-    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.80);
+    box-shadow: 0px 0px 24px rgba(255, 255, 255, 0.45);
     padding: 7px 10px;
 }
 
