@@ -11,6 +11,8 @@ TODO
   - Case-insensitive contact list
   - more...
 * change isResLife fallback number in location-specific interface
+* toggle SMS notification in GUI
+* change forwarded call message in GUI
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
 * more...
 
