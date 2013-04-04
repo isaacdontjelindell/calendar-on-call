@@ -113,18 +113,21 @@ def includeLocation(loc_name):
 
     on_call_list = loc.getCurrentPersonsOnDuty()
     print   "Currently on call: " 
-    for name in on_call_list:
+    for name in on_call_list[:-1]:
         print name + ", "
+    print on_call_list[-1]
     print "<br>"
 
     forwarding_destinations, fail_number = loc.getCurrentForwardingDestinations()
     print   "Current forwarding destinations: "
-    for number in forwarding_destinations:
+
+    for number in forwarding_destinations[:-1]:
         print number + ", "
+    print forwarding_destinations[-1]
     print   "<br>"
 
     print   "<span class='small gray'>"
-    print       "<a class='show_hide' href='#' rel='#advancedInfo'>+Advanced Information</a>"
+    print       "<a class='show_hide' href='#' rel='#advancedInfo'><b>+Advanced</b></a>"
     print        "<div id='advancedInfo' class='toggleDiv' style='display: none;'>"
     print           "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
     print           "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
@@ -215,18 +218,20 @@ def includeAllCurrentLocations():
         print    "Location: <a href='main.cgi?location=" + info["location_name"] + "'>" + info["location_name"] + "</a><br>"
         on_duty_list = loc.getCurrentPersonsOnDuty()
         print    "Currently on call: "
-        for name in on_duty_list:
-            print (name + ", ")
+        for name in on_duty_list[:-1]:
+            print name + ", "
+        print on_duty_list[-1]
         print "<br>"
         forwarding_destinations, fail_number = loc.getCurrentForwardingDestinations()
 
         print    "Current forwarding destinations: "
-        for number in forwarding_destinations:
+        for number in forwarding_destinations[:-1]:
             print number + ", "
+        print forwarding_destinations[-1]
         print "<br>"
 
         print    "<span class='small gray'>"
-        print    "<a class='show_hide' href='#' rel='#advancedInfo" + info['location_name'] + "'>+Advanced Information</a>"
+        print    "<a class='show_hide' href='#' rel='#advancedInfo" + info['location_name'] + "'><b>+Advanced</b></a>"
         print    "<div id='advancedInfo" + info['location_name'] + "' class='toggleDiv' style='display: none;'>"
         print       "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
         print       "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
