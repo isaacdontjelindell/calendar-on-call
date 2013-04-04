@@ -17,7 +17,7 @@ body {
 
 .location {
     width: 480px;
-    background-color:rgba(255,255,255,0.45);
+    background-color:rgba(255,255,255,0.65);
     box-shadow: 0px 0px 24px rgba(255, 255, 255, 0.45);
     border-radius: 3px;
     padding: 10px 10px;
@@ -41,7 +41,7 @@ body {
 .sidebar {
     width: 340px;
     float: right;
-    background-color: rgba(255,255,255,0.45);
+    background-color: rgba(255,255,255,0.65);
     border-radius: 3px;
     box-shadow: 0px 0px 24px rgba(255, 255, 255, 0.45);
     padding: 7px 10px;
