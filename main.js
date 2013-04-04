@@ -121,3 +121,16 @@ function validateNewLocation()
     }
     return true;
 }
+
+
+function removeLoc(loc) 
+{
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "location");
+    input.setAttribute("value", loc);
+
+    //append to form element that you want .
+    document.getElementById("removeLocationForm").appendChild(input);
+    document.getElementById("removeLocationForm").submit();
+}

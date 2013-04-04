@@ -207,12 +207,11 @@ def includeNewLocationForm():
 
 def includeAllCurrentLocations():
     print "<div id='locations'>"
-    print '''<form method=POST action="main.cgi" name="removeLocation">'''
+    print '''<form id="removeLocationForm" method=POST action="main.cgi" name="removeLocation">'''
     print       "<input type=hidden name='formName' value='removeLocationForm'>"
     for loc in locations:
         info = loc.getInfo()
         print "<div class='location'>"
-        print    "<input type='checkbox' name='location' value='" + info["location_name"] + "'>"
         print    "Location: <a href='main.cgi?location=" + info["location_name"] + "'>" + info["location_name"] + "</a><br>"
         on_duty_list = loc.getCurrentPersonsOnDuty()
         print    "Currently on call: "
@@ -231,12 +230,12 @@ def includeAllCurrentLocations():
         print    "<div id='advancedInfo" + info['location_name'] + "' class='toggleDiv' style='display: none;'>"
         print       "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
         print       "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
-        print       "<b>Is Res-life?</b>: " + str(info['isResLife']) + "<br>"
+        print       "<b>Is Res-life?</b>: " + str(info['isResLife']) 
+        print       """<a href='#'><img src='delete.png' class='deleteIcon' onclick="removeLoc('""" + info["location_name"] + """');"></a>"""
         print    "</div>"
         print    "</span>"
         print "</div>"
     
-    print   "<input type='submit' class='button' value='Remove selected locations'>"
     print   "</form>"
     print "</div>"
 
@@ -253,7 +252,7 @@ def parseNewLocationForm(form):
     
     contact_list = {}
 
-    cl = form["contacts"].value
+    cl = form["contacts"].value.strip()
     cl = cl.split('\n')
     for contact in cl:
         temp = contact.split(':')
