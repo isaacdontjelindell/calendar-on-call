@@ -168,7 +168,7 @@ def includeContactListForm(info):
         print           "<td>" + cl[contact] + "</td>"
         print       "</tr>"
     print       "</table>"
-    print       "<input type='submit' value='Remove selected contacts'>"
+    print       "<input type='submit' class='button' value='Remove selected contacts'>"
     print   "</form>"
     print
     print   "<form id='contactListAddForm' class='bottommargin' method=POST action='' onsubmit='return validateNewContact();'>"
@@ -179,7 +179,7 @@ def includeContactListForm(info):
 
     print           "<input type=text name='contact' placeholder='Name'><br>"
     print           "<input type=text name='phone' placeholder='Number (xxx-xxx-xxxx)'><br>"
-    print           "<input type=submit value='Add contact'>"
+    print           "<input type=submit class='button' value='Add contact'>"
     print       "</div>"
     print   "</form>"
     print "</div>"
@@ -196,9 +196,9 @@ def includeNewLocationForm():
                     Location name: <input type='text' name='name' value=""/><br>
                     Duty calendar url: <input type='text' name='cal' value=""/><br>
                     Twilio phone number id: <input type='text' name='twilio_id' value=""/><br>
-                    Is Res-life: <input type=checkbox name='isResLife' value='True'><br>
                     Phone number list (name:xxx-xxx-xxx): <textarea rows="5" cols="30" name='contacts' value=""></textarea><br>
-                    <input type="submit" value="Add location"/>
+                    Is Res-life: <input type=checkbox name='isResLife' value='True'><br>
+                    <input type="submit" class='button' value="Add location"/>
                 </form>
             </div>
         </div>
@@ -236,7 +236,7 @@ def includeAllCurrentLocations():
         print    "</span>"
         print "</div>"
     
-    print   "<input type='submit' value='Remove selected locations'>"
+    print   "<input type='submit' class='button' value='Remove selected locations'>"
     print   "</form>"
     print "</div>"
 
