@@ -20,6 +20,7 @@ TODO
   - don't allow showing python code
   - separate public_html stuff from backend code
   - only allow deploy.cgi to be called from the Github IP blocks (dev only)
+* set up alternative Twilio account for development purposes
 * more...
 
 
