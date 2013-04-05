@@ -1,5 +1,4 @@
 #!/usr/local/bin/python
-
 from Location import Location
 import json
 import os
@@ -139,6 +138,21 @@ def includeLocation(loc_name):
     print "<div id='locationSettingsContainer' class='sidebar'>"
     includeContactListForm(info)    
     includeIsResLifeToggleForm(info)
+    includeSMSToggleForm(info)
+    print "</div>"
+
+def includeSMSToggleForm(info):
+    curr_sendSMS = info['send_sms']
+
+    print "<div id='sendSMSToggle'>"
+    print   "<form class='bottommargin' method=POST action=''>"
+    print       "<input type='hidden' name='formName' value='smsToggleForm'>"
+
+    if curr_sendSMS:
+        print "Send SMS notifications: <input type=checkbox name='send_sms' value='True' checked onclick='this.form.submit();'><br>"
+    else:
+        print "Send SMS notifications: <input type=checkbox name='send_sms' value='True' onclick='this.form.submit();'><br>"
+    print   "</form>"
     print "</div>"
 
 
@@ -250,6 +264,7 @@ def parseNewLocationForm(form):
     new_info["location_name"] = form["name"].value
     new_info["calendar_url"] = form["cal"].value
     new_info["forwarding_number_id"] = form["twilio_id"].value
+    new_info["send_sms"] = False  # default off
     if "isResLife" in form:
         new_info['isResLife'] = True
     else:
@@ -276,12 +291,17 @@ def getLocationFromName(loc_name):
     showErrors("Unknown location " + loc_name)
     
 
-def toggleIsResLife(loc_name, form):
+def toggleIsResLife(loc_name):
     loc = getLocationFromName(loc_name)
 
     loc.getInfo()['isResLife'] = not loc.getInfo()['isResLife']
 
     loc.update()
+
+def toggleSendSMS(loc_name):
+    loc = getLocationFromName(loc_name)
+
+    loc.getInfo()['send_sms'] = not loc.getInfo()['send_sms']
 
 def removeContacts(loc_name, form):
     remove_contacts = form.getlist("contact")
@@ -334,8 +354,11 @@ def main():
                 addContact(loc_name, form)
 
             if form_name == "resLifeToggleForm":
-                toggleIsResLife(loc_name, form)
+                toggleIsResLife(loc_name)
              
+            if form_name == "smsToggleForm":
+                toggleSendSMS(loc_name)
+
         showLocationInterface(loc_name)
 
     elif 'formName' in form:
@@ -345,10 +368,9 @@ def main():
              addNewLocation(form)
              showMainInterface()
 
-         elif form_name == "removeLocationForm":
+         if form_name == "removeLocationForm":
              removeLocations(form)
              showMainInterface()
-
     else:
         showMainInterface()
 
