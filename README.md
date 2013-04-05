@@ -16,7 +16,10 @@ TODO
 * change Google Calendar in GUI
 * display forwarding number in GUI
 * change forwarding number in GUI
-* get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
+* security!
+  - don't allow showing python code
+  - separate public_html stuff from backend code
+  - only allow deploy.cgi to be called from the Github IP blocks (dev only)
 * more...
 
 
