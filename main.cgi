@@ -69,14 +69,20 @@ def showMainInterface():
                 <title>Calendar On Call</title>
             </head>
             <body>
+            <div id='header'>'''
+    includeHeader()
+    print '''</div>
+             <div id='content'>
     '''
     includeAllCurrentLocations()
     includeNewLocationForm()
 
     print '''
+            </div>
             </body>
         </html>
     '''
+
 
 def showLocationInterface(loc_name):
     print "Content-Type: text/html"
@@ -92,14 +98,22 @@ def showLocationInterface(loc_name):
                 <title>Calendar On Call</title>
             </head>
             <body>
-    '''
-    
+            <div id='header'> '''
+    includeHeader()
+            
+    print '''
+            </div>
+            <div id='content'> '''
     includeLocation(loc_name)
 
     print '''
+            </div>
             </body>
         </html>
     '''
+
+def includeHeader():
+    print "<img src='logo.png'>"
 
 def includeLocation(loc_name):
     loc = getLocationFromName(loc_name)
