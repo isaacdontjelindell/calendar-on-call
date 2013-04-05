@@ -13,6 +13,9 @@ TODO
   - more...
 * change isResLife fallback number in location-specific interface
 * change forwarded call message in GUI
+* change Google Calendar in GUI
+* display forwarding number in GUI
+* change forwarding number in GUI
 * get working on Knuth (install dependencies, set environment variables). Will have to work with Miller on this.
 * more...
 
