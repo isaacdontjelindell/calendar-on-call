@@ -366,11 +366,12 @@ def main():
 
          if form_name == "newLocationForm":
              addNewLocation(form)
-             showMainInterface()
 
          if form_name == "removeLocationForm":
              removeLocations(form)
-             showMainInterface()
+         
+         showMainInterface()
+
     else:
         showMainInterface()
 

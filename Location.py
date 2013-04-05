@@ -10,7 +10,6 @@ class Location:
         self.twilio_client = TwilioRestClient()
         self.forwarding_number_obj = self.twilio_client.phone_numbers.get(self.info["forwarding_number_id"])
         self.info['contact_list']['ResLife Office'] = "563-387-1330"
-        self.update()
         
     def getInfo(self):
         return self.info
