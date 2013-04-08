@@ -48,6 +48,9 @@ class Location:
         voice_URL = voice_URL + "Message=Fowarded%20Call&" + "FailUrl=http://twimlets.com/forward?PhoneNumber=" + failNumber
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
+    def getTwilioNumber(self):
+        return self.forwarding_number_obj.friendly_name
+
     def getCurrentForwardingDestinations(self): #Returns a tuple with the first element a list of simulring numbers
         #curently on call and the second item the fail number string
         current_numbers = []
