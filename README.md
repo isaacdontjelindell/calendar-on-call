@@ -9,7 +9,7 @@ TODO
 * Error handling!
   - bad Google Calendar URL
   - Case-insensitive contact list
-  - location name with space
+  - location name with space/symbol
   - more...
 * change isResLife fallback number in location-specific interface
 * change forwarded call message in GUI
@@ -20,7 +20,6 @@ TODO
   - don't allow showing python code
   - separate public_html stuff from backend code
   - only allow deploy.cgi to be called from the Github IP blocks (dev only)
-* set up alternative Twilio account for development purposes
 * more...
 
 
