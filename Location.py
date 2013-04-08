@@ -85,18 +85,19 @@ class Location:
 
                     if self.info["isResLife"] == True:
                         nowTime = datetime.datetime.now().time()
+                        #nowTime = datetime.time(1,0,0)
                         midnightTime = datetime.time(23, 59, 59)
                         sevenPMTime = datetime.time(19,0,0)
                         eightAMTime = datetime.time(8,0,0)
 
                         if sevenPMTime <= nowTime or nowTime <= eightAMTime:
-                            pass 
+                            curr_date = curr_date - datetime.timedelta(days=1)
                         else:
-                            #print "Not in on-duty time range" 
                             return ["ResLife Office"]
 
             if start_date <= curr_date <= end_date: # if this event is right now
                     title = str(vevent.get('SUMMARY')) # this will be the title of the event (hopefully  name)
+
                     on_duty_names.append(title)
         
         # handle case where nobody is on duty calendar
@@ -118,11 +119,11 @@ def testLocation():
     info["calendar_url"] = calendar_url
     info["forwarding_number_id"] = forwarding_number_id
     info["contact_list"] = contact_list
-    info["isResLife"] = False
+    info["isResLife"] = True
 
     location = Location(info)
     
-    print location.getCurrentForwardingDestinations()
+    print location.getCurrentPersonsOnDuty()
 
 
 
