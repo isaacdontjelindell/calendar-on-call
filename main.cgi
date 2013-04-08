@@ -263,6 +263,7 @@ def includeAllCurrentLocations():
         print    "<a class='show_hide' href='#' rel='#advancedInfo" + info['location_name'] + "'><b>+Advanced</b></a>"
         print    "<div id='advancedInfo" + info['location_name'] + "' class='toggleDiv' style='display: none;'>"
         print       "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
+        print       "<b>Forwarding number</b>:" + loc.getTwilioNumber() + "<br>"
         print       "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
         print       "<b>Is Res-life?</b>: " + str(info['isResLife']) 
         print       """<a href='#'><img src='delete.png' class='deleteIcon' onclick="removeLoc('""" + info["location_name"] + """');"></a>"""

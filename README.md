@@ -14,7 +14,6 @@ TODO
 * change isResLife fallback number in location-specific interface
 * change forwarded call message in GUI
 * change Google Calendar in GUI
-* display forwarding number in GUI
 * change forwarding number in GUI
 * security!
   - don't allow showing python code
