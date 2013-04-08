@@ -12,6 +12,7 @@ TODO
   - location name with space/symbol
   - more...
 * change isResLife fallback number in location-specific interface
+* change fallback number based on weekend/weekday/specific day
 * change forwarded call message in GUI
 * change Google Calendar in GUI
 * change forwarding number in GUI
