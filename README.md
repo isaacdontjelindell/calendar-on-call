@@ -20,6 +20,7 @@ TODO
   - don't allow showing python code
   - separate public_html stuff from backend code
   - only allow deploy.cgi to be called from the Github IP blocks (dev only)
+* allow seeing contents of calendar (or at least next person on duty).
 * more...
 
 
