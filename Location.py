@@ -87,15 +87,21 @@ class Location:
                     end_date = end_date - datetime.timedelta(days=1)
 
                     if self.info["isResLife"] == True:
-                        nowTime = datetime.datetime.now().time()
-                        #nowTime = datetime.time(1,0,0)
-                        midnightTime = datetime.time(23, 59, 59)
-                        sevenPMTime = datetime.time(19,0,0)
-                        eightAMTime = datetime.time(8,0,0)
+                        now_time = datetime.datetime.now().time()
+                        #now_time = datetime.time(1,0,0)
+                        #now_time = datetime.time(19,20,0)
 
-                        if sevenPMTime <= nowTime or nowTime <= eightAMTime:
+                        seven_pm_time = datetime.time(19,0,0)
+                        eight_am_time = datetime.time(8,0,0)
+                        #print now_time
+                        if seven_pm_time <= now_time <= datetime.time(23,59,59):
+                            #print "Between 7 and midnight"
+                            pass
+                        elif datetime.time(0,0,0) <= now_time <= eight_am_time:
+                            #print "Between midnight and 8am"
                             curr_date = curr_date - datetime.timedelta(days=1)
                         else:
+                            #print "Not between 7pm and 8am"
                             return ["ResLife Office"]
 
             if start_date <= curr_date <= end_date: # if this event is right now
