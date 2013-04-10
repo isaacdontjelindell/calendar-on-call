@@ -143,7 +143,7 @@ def includeLocation(loc_name):
     print       "<a class='show_hide' href='#' rel='#advancedInfo'><b>+Advanced</b></a>"
     print        "<div id='advancedInfo' class='toggleDiv' style='display: none;'>"
     print           "<b>Calendar URL</b>: " + info["calendar_url"] + "<br>"
-    print           "<b>Forwarding number</b>: " + loc.getTwilioNumber() + "<br>"
+    print           "<b>Forwarding number TEST</b>: " + loc.getTwilioNumber() + "<br>"
     print           "<b>Forwarding number ID</b>: " + info["forwarding_number_id"] + "<br>"
     print           "<b>Is Res-life?</b>: " + str(info['isResLife']) + "<br>"
     print        "</div>"
