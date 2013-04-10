@@ -45,7 +45,7 @@ class Location:
                 to_number = "+1" + number.replace("-", "")  # +12316851234
                 message = self.twilio_client.sms.messages.create(to=to_number, from_=self.forwarding_number_obj.friendly_name, body="You are now on duty.")
 
-        voice_URL = voice_URL + "Message=Fowarded%20Call&" + "FailUrl=http://twimlets.com/forward?PhoneNumber=" + failNumber
+        voice_URL = voice_URL + "Message=Forwarded%20Call&" + "FailUrl=http://twimlets.com/forward?PhoneNumber=" + failNumber
         self.forwarding_number_obj.update(voice_url=voice_URL)
 
     def getTwilioNumber(self):
