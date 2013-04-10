@@ -6,6 +6,7 @@ Current live link (to see what it looks like:) [calendar-on-call](http://dev.isa
 
 TODO
 -------
+* ! DON'T SEND TEXTS TO RESLIFE OFFICE !
 * Error handling!
   - bad Google Calendar URL
   - Case-insensitive contact list
