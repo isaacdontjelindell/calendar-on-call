@@ -41,7 +41,7 @@ class Location:
             voice_URL = voice_URL + "PhoneNumbers%5B" + str(incrementNum) + "%5D=" + number + "&"
             incrementNum = incrementNum + 1
 
-            if not number in oldDestinationNumbers and self.info['send_sms']:
+            if not number in oldDestinationNumbers and self.info['send_sms'] and not number == self.info['contact_list']['ResLife Office']:
                 to_number = "+1" + number.replace("-", "")  # +12316851234
                 message = self.twilio_client.sms.messages.create(to=to_number, from_=self.forwarding_number_obj.friendly_name, body="You are now on duty.")
 
